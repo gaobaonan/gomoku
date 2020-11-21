@@ -14,7 +14,7 @@ public class GomokuBoard extends JFrame {
     private JButton cancel;
     private JButton restart;
     private JPanel blackPicture;
-    private JPanel whitePicture;
+//    private JPanel whitePicture;
 
     public GomokuBoard(int gamemode) {
         initUI();
