@@ -151,7 +151,8 @@ public class GomokuBoard extends JFrame {
                 if(playable){
                     cc.cancel();
                     repaint();
-                    turn = !turn;
+                    if(gameMode == 1)
+                        turn = !turn;
                 }
             }
         });
