@@ -6,29 +6,12 @@ import java.awt.event.*;
 
 public class GomokuBoard extends JFrame {
 
-    private enum Turn{blackTurn, whiteTurn}
-    private enum GameMode{single, multi}
-
+    UIediter ui;
     private ChessCounter cc;
-    private boolean playable = true;
-    private Turn turn;
-    private GameMode gameMode;
 
-    private JButton cancel;
-    private JButton restart;
-    private JPanel blackPicture;
-//    private JPanel whitePicture;
-
-    public GomokuBoard(int gameMode) {
+    public GomokuBoard(ChessCounter cc) {
+        this.cc = cc;
         initUI();
-
-        turn = Turn.blackTurn;
-        this.gameMode = GameMode.values()[gameMode];
-        if(this.gameMode == GameMode.single)
-            cc = new AIChessCounter();
-        else
-            cc = new ChessCounter();
-        cc.setChess(7,7,2);
     }
 
     public void paint(Graphics g) {
@@ -44,15 +27,13 @@ public class GomokuBoard extends JFrame {
             if (cc.winner() == 1) winner = "Fekete";
             else winner = "Fehér";
             System.out.println(winner + " megnyert!!!!");
-            playable = false;
+            cc.setPlayable(false);
         }
     }
 
     private void initUI(){
-
         basicSetting();
         UISetting();
-
     }
 
     private void basicSetting(){
@@ -61,19 +42,19 @@ public class GomokuBoard extends JFrame {
         //cím
         setTitle("Gomoku");
         //méret
-        setSize(750, 550);
+        setBounds(500, 100,750, 550);
         //azonos méret legyen
         setResizable(false);
         //bezárás
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        //nem mutat meg
+        setVisible(false);
 
         //mouseListenert használ
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if(playable) {
-                    cc.refresh();
+                if(cc.getPlayable()) {
                     int x = e.getX();
                     int y = e.getY();
                     //判断点击是否在棋盘内
@@ -81,85 +62,35 @@ public class GomokuBoard extends JFrame {
                         x = (x - 15) / 30;
                         y = (y - 55) / 30;
 
-                        if (cc.getChess()[x][y] == 0) {
-
-                            if (turn == Turn.blackTurn) {
-                                cc.getChess()[x][y] = 1;
-                                turn = Turn.whiteTurn;
+                        if (cc.getValueAt(x,y) == 0) {
+                            cc.refresh();
+                            if (cc.getTurn() == ChessCounter.Turn.blackTurn) {
+                                cc.setChess(x,y,1);
+                                cc.setTurn(ChessCounter.Turn.whiteTurn);
                             }
                             else {
-                                cc.getChess()[x][y] = 2;
-                                turn = Turn.blackTurn;
+                                cc.setChess(x,y,2);
+                                cc.setTurn(ChessCounter.Turn.blackTurn);
                             }
 
-                            repaint();
-                            win();
-
-                            if(gameMode == GameMode.single){
-                                playable = false;
+                            if(cc.getGameMode() == ChessCounter.GameMode.single){
+                                cc.setPlayable(false);
                                 cc.step();
-                                turn = Turn.blackTurn;
-                                playable = true;
+                                cc.setTurn(ChessCounter.Turn.blackTurn);
+                                cc.setPlayable(true);
                             }
                             win();
                         }
                     }
                 }
+                repaint();
             }
         });
-        //nem mutat meg
-        setVisible(false);
     }
 
     private void UISetting(){
-        //nyomogombok beállítások
-        restart = new JButton("újrakezdés");
-        restart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cc.init();
-                playable = true;
-                repaint();
-                turn = Turn.blackTurn;
-            }
-        });
-
-        cancel = new JButton("visszalépés");
-        cancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(playable){
-                    cc.cancel();
-                    repaint();
-                    if(gameMode == GameMode.multi)
-                        if (turn == Turn.blackTurn) turn = Turn.whiteTurn;
-                        else turn = Turn.blackTurn;
-
-                }
-            }
-        });
-
-        blackPicture = new JPanel(){
-            ImageIcon icon= new ImageIcon("resources/heiqi.png");
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);    //To change body of overridden methods use File | Settings | File Templates.
-                g.drawImage(icon.getImage(),0,0,120,120,null);
-            }
-        };
-        blackPicture.setSize(120,120);
-        blackPicture.setVisible(true);
-
-        Box b1 = Box.createHorizontalBox();
-        Box b2 = Box.createVerticalBox();
-        add(b1);
-        b1.add(Box.createHorizontalStrut(500));
-        b1.add(blackPicture);
-        b1.add(b2);
-        b2.add(restart);
-        b2.add(Box.createVerticalStrut(50));
-        b2.add(cancel);
-        b2.add(blackPicture);
+        ui = new UIediter(this, cc);
+        add(ui.UIBox());
     }
 
 }
