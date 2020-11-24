@@ -1,4 +1,4 @@
-package com.gao.gomoku;
+package com.gao.gomoku.gameBoard;
 
 import com.gao.gomoku.counter.ChessCounter;
 
@@ -13,13 +13,13 @@ public class Painting {
                 //黑子
                 if (cc.getValueAt(i,j) == 1) {
                     int tempX = i * 30 + 30;
-                    int tempY = j * 30 + 70;
+                    int tempY = j * 30 + 40;
                     g.fillOval(tempX - 9, tempY - 9, 18, 18);
                 }
                 //白子
                 if (cc.getValueAt(i,j) == 2) {
                     int tempX = i * 30 + 30;
-                    int tempY = j * 30 + 70;
+                    int tempY = j * 30 + 40;
                     g.setColor(Color.WHITE);
                     g.fillOval(tempX - 9, tempY - 9, 18, 18);
                     g.setColor(Color.BLACK);
@@ -29,22 +29,22 @@ public class Painting {
         }
     }
 
-    public static void boardPainting(Graphics g){
+    public static void ChessboardPainting(Graphics g){
 
         g.setColor(Color.orange);
-        g.fillRect(15,55,450,450);
+        g.fillRect(15,25,450,450);
         g.setColor(Color.BLACK);
 
         //棋盘
         for (int i = 0; i < 15; i++) {
-            g.drawLine(30, 70 + 30 * i, 450, 70 + 30 * i);
-            g.drawLine(30 + 30 * i, 70, 30 + 30 * i, 490);
+            g.drawLine(30, 40 + 30 * i, 450, 40 + 30 * i);
+            g.drawLine(30 + 30 * i, 40, 30 + 30 * i, 460);
         }
 
-        g.fillRect(13,53,4,454);
-        g.fillRect(13,53,454,4);
-        g.fillRect(463,53,4,454);
-        g.fillRect(13,503,454,4);
+        g.fillRect(13,23,4,454);
+        g.fillRect(13,23,454,4);
+        g.fillRect(463,23,4,454);
+        g.fillRect(13,473,454,4);
 
         //标注点位
         g.fillOval(117, 157, 6, 6);
