@@ -1,6 +1,11 @@
-package com.gao.gomoku;
+package com.gao.gomoku.counter;
 
-public class AIChessCounter extends ChessCounter{
+public class AIChessCounter extends ChessCounter {
+
+    public AIChessCounter(){
+        super();
+        gameMode = GameMode.single;
+    }
 
     //lépés
     @Override
@@ -70,7 +75,7 @@ public class AIChessCounter extends ChessCounter{
     private int five(int x, int y){
         int count = 0;
         for(int m = 0; m < 4; m++){
-            if(countLine(x, y, m) == 5)
+            if(countLine(x, y, m) >= 5)
                 count++;
         }
         return count;
@@ -130,7 +135,7 @@ public class AIChessCounter extends ChessCounter{
         return count;
     }
 
-    //fontos pont, ha ilyen helyet talált, akkor muszáj idetenni
+
     private boolean mustPressedLogic(int level){
         for(int i = 0; i < 15; i++){
             for (int j = 0; j < 15; j++){

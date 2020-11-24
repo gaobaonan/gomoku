@@ -1,5 +1,7 @@
 package com.gao.gomoku;
 
+import com.gao.gomoku.counter.ChessCounter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

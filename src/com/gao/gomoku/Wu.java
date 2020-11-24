@@ -29,7 +29,7 @@ public class Wu extends JFrame {
         title = new JLabel();
         button1 = new JButton();
         start = new JButton();
-        game = new GomokuBoard(0);
+        //game = new GomokuBoard(ChessCounter.GameMode.single);
 
         //======== this ========
         setMaximizedBounds(null);

@@ -1,6 +1,17 @@
-package com.gao.gomoku;
+package com.gao.gomoku.counter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChessCounter {
+
+
+    public enum GameMode{single, multi}
+    public enum Turn{blackTurn, whiteTurn}
+
+    protected GameMode gameMode;
+    protected Turn turn;
+    protected boolean playable;
 
     protected int[][] chess;
     protected int[][] lastTimeChess;
@@ -8,25 +19,29 @@ public class ChessCounter {
     public ChessCounter(){
         chess = new int[15][15];
         lastTimeChess = new int[15][15];
+        turn = Turn.blackTurn;
+        playable = true;
+        gameMode = GameMode.multi;
         init();
     }
 
     //getter
-    public int[][] getChess(){
-        return chess;
-    }
-
     public int getValueAt(int x, int y){
         return chess[x][y];
     }
 
-    public void setChess(int x, int y, int v){
-        chess[x][y] = v;
-    }
+    public boolean getPlayable() { return playable; }
 
-    public int[][] getSetLastTimeChess(){
-        return lastTimeChess;
-    }
+    public Turn getTurn() { return turn; }
+
+    public GameMode getGameMode() { return gameMode; }
+
+    //setter
+    public void setChess(int x, int y, int v) { chess[x][y] = v; }
+
+    public void setPlayable(boolean p) { playable = p; }
+
+    public void setTurn(Turn t) { turn = t; }
 
     //frisítés, visszalépésre készült
     public void refresh(){

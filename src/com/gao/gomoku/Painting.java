@@ -1,5 +1,7 @@
 package com.gao.gomoku;
 
+import com.gao.gomoku.counter.ChessCounter;
+
 import java.awt.*;
 
 public class Painting {

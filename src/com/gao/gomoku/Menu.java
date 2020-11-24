@@ -1,6 +1,7 @@
 package com.gao.gomoku;
 
-import net.miginfocom.layout.BoundSize;
+import com.gao.gomoku.counter.AIChessCounter;
+import com.gao.gomoku.counter.ChessCounter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class Menu extends JFrame {
     private JLabel title;
     private JButton singlePlayer;
     private JButton multiplayer;
+    private JButton load;
     private JButton exit;
 
     public Menu(){
@@ -37,6 +39,9 @@ public class Menu extends JFrame {
         multiplayer = new JButton("Két játékos");
         multiplayer.setPreferredSize(new Dimension(120,30));
 
+        load = new JButton("kinyitás");
+        load.setPreferredSize(new Dimension(120,30));
+
         exit = new JButton("kilép");
         exit.setPreferredSize(new Dimension(120,30));
 
@@ -45,11 +50,11 @@ public class Menu extends JFrame {
         title.setFont(new Font("gomokuFont",1,40));
 
 
-        JPanel titlePanel = new JPanel();
-        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
-        titlePanel.add(Box.createVerticalStrut(30));
-        titlePanel.add(title);
-        titlePanel.add(Box.createVerticalStrut(100));
+        JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
+        menuPanel.add(Box.createVerticalStrut(30));
+        menuPanel.add(title);
+        menuPanel.add(Box.createVerticalStrut(100));
 
         JPanel buttonPanel1 = new JPanel();
         buttonPanel1.setLayout(new FlowLayout());
@@ -61,16 +66,23 @@ public class Menu extends JFrame {
 
         JPanel buttonPanel3 = new JPanel();
         buttonPanel3.setLayout(new FlowLayout());
-        buttonPanel3.add(exit);
+        buttonPanel3.add(load);
 
 
-        titlePanel.add(buttonPanel1);
-        titlePanel.add(Box.createVerticalStrut(10));
-        titlePanel.add(buttonPanel2);
-        titlePanel.add(Box.createVerticalStrut(10));
-        titlePanel.add(buttonPanel3);
-        titlePanel.add(Box.createVerticalStrut(90));
-        add(titlePanel);
+        JPanel buttonPanel4 = new JPanel();
+        buttonPanel4.setLayout(new FlowLayout());
+        buttonPanel4.add(exit);
+
+
+        menuPanel.add(buttonPanel1);
+        menuPanel.add(Box.createVerticalStrut(5));
+        menuPanel.add(buttonPanel2);
+        menuPanel.add(Box.createVerticalStrut(5));
+        menuPanel.add(buttonPanel3);
+        menuPanel.add(Box.createVerticalStrut(5));
+        menuPanel.add(buttonPanel4);
+        menuPanel.add(Box.createVerticalStrut(80));
+        add(menuPanel);
 
         buttonListener();
     }
@@ -92,6 +104,13 @@ public class Menu extends JFrame {
                 cc = new ChessCounter();
                 b = new GomokuBoard(cc);
                 b.setVisible(true);
+            }
+        });
+
+        load.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileFrame f = new FileFrame(FileFrame.IO.load, cc);
             }
         });
 
