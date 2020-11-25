@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 public class Menu extends JFrame {
 
     private ChessCounter cc;
-    GomokuBoard b;
+    private GomokuBoard b;
 
     private Box b1;
     private JLabel title;

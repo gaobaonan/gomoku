@@ -6,15 +6,15 @@ import java.awt.*;
 
 public class Painting {
 
-    private static int xStartPoint = 30;
-    private static int yStartPoint = 40;
+    private static final int xStartPoint = 30;
+    private static final int yStartPoint = 40;
 
-    private static int chessRadius = 9;
+    private static final int chessRadius = 9;
 
-    private static int blockSzie = 30;
-    private static int windowThick = 4;
-    private static int spacing = 15;
-    private static int circleRadius = 3;
+    private static final int blockSzie = 30;
+    private static final int windowThick = 4;
+    private static final int spacing = 15;
+    private static final int circleRadius = 3;
 
 
     public static void chessPainting(Graphics g, ChessCounter cc){

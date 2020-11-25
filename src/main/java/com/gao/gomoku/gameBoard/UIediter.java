@@ -63,26 +63,26 @@ public class UIediter {
 
                         if (cc.getValueAt(x,y) == 0) {
                             cc.refresh();
-                            if (cc.getTurn() == ChessCounter.Turn.blackTurn) {
+                            if (cc.getTurn() == ChessCounter.Turn.BLACK) {
                                 cc.setChess(x,y,1);
-                                cc.setTurn(ChessCounter.Turn.whiteTurn);
+                                cc.setTurn(ChessCounter.Turn.WHITE);
                             }
                             else {
                                 cc.setChess(x,y,2);
-                                cc.setTurn(ChessCounter.Turn.blackTurn);
+                                cc.setTurn(ChessCounter.Turn.BLACK);
                             }
 
-                            if(cc.getGameMode() == ChessCounter.GameMode.single){
+                            if(cc.getGameMode() == ChessCounter.GameMode.SINGLE){
                                 cc.setPlayable(false);
                                 cc.step();
-                                cc.setTurn(ChessCounter.Turn.blackTurn);
+                                cc.setTurn(ChessCounter.Turn.BLACK);
                                 cc.setPlayable(true);
                             }
-                            cc.win();
                         }
                     }
                 }
                 boardPanel.repaint();
+                cc.win();
             }
         });
 
@@ -95,7 +95,7 @@ public class UIediter {
             public void actionPerformed(ActionEvent e) {
                 cc.init();
                 cc.setPlayable(true);
-                cc.setTurn(ChessCounter.Turn.blackTurn);
+                cc.setTurn(ChessCounter.Turn.BLACK);
                 boardPanel.repaint();
             }
         });
@@ -105,9 +105,9 @@ public class UIediter {
             public void actionPerformed(ActionEvent e) {
                 if(cc.getPlayable()){
                     cc.cancel();
-                    if(cc.getGameMode() == ChessCounter.GameMode.multi)
-                        if (cc.getTurn() == ChessCounter.Turn.blackTurn) cc.setTurn(ChessCounter.Turn.whiteTurn);
-                        else cc.setTurn(ChessCounter.Turn.blackTurn);
+                    if(cc.getGameMode() == ChessCounter.GameMode.MULTI)
+                        if (cc.getTurn() == ChessCounter.Turn.BLACK) cc.setTurn(ChessCounter.Turn.WHITE);
+                        else cc.setTurn(ChessCounter.Turn.BLACK);
                     boardPanel.repaint();
 
                 }

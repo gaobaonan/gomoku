@@ -13,6 +13,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class FileFrame extends JFrame {
 
     public enum IO{ save, load }
@@ -20,7 +23,7 @@ public class FileFrame extends JFrame {
     private JLabel text;
     private List<JButton> list = new ArrayList();
     private JButton exit;
-    private int serialNumber;
+
 
     public FileFrame(IO io, ChessCounter cc){
         setBounds(700,200,200,280);
@@ -46,7 +49,6 @@ public class FileFrame extends JFrame {
     }
 
     private void buttonSetting(IO io, ChessCounter cc){
-
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,7 +57,7 @@ public class FileFrame extends JFrame {
         });
 
         for (int i = 0; i < 5; i++) {
-            serialNumber = i;
+            final int serialNumber = i;
             list.get(i).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -96,22 +98,11 @@ public class FileFrame extends JFrame {
     }
 
     private void loadSetting(ChessCounter cc, String buttonName) throws IOException {
-
         String name = "save/" + buttonName + ".txt";
-        FileReader fr = null;
-        try {
-            fr = new FileReader(name);
-        }
-        catch (IOException exc){
-            MessageFrame m = new MessageFrame("az adott fájl nem található!");
-        }
-
-        if(fr != null){
-            BufferedReader br = new BufferedReader(fr);
+        try(BufferedReader br = new BufferedReader(new FileReader(name))){
             String[] firstLine =  br.readLine().split(" ");
 
-
-            if(firstLine[0].equals("single")) cc = new AIChessCounter();
+            if(firstLine[0].equals("SINGLE")) cc = new AIChessCounter();
             else cc = new ChessCounter();
             cc.setTurn(ChessCounter.Turn.valueOf(firstLine[1]));
             cc.setPlayable(firstLine[2].equals("playable"));
@@ -121,11 +112,12 @@ public class FileFrame extends JFrame {
                     cc.setChess(i, j, Character.getNumericValue(line[j]));
                 }
             }
-            br.close();
-            fr.close();
 
             GomokuBoard b = new GomokuBoard(cc);
             b.setVisible(true);
+        }
+        catch(FileNotFoundException exception){
+            showMessageDialog(null, "Fájl nem található!", "Hiba", ERROR_MESSAGE);
         }
     }
 }

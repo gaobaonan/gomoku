@@ -2,14 +2,15 @@ package com.gao.gomoku.counter;
 
 import com.gao.gomoku.gameBoard.MessageFrame;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.*;
+
+import static javax.swing.JOptionPane.*;
 
 public class ChessCounter {
 
 
-    public enum GameMode{single, multi}
-    public enum Turn{blackTurn, whiteTurn}
+    public enum GameMode{SINGLE, MULTI}
+    public enum Turn{BLACK, WHITE}
 
     protected GameMode gameMode;
     protected Turn turn;
@@ -21,9 +22,9 @@ public class ChessCounter {
     public ChessCounter(){
         chess = new int[15][15];
         lastTimeChess = new int[15][15];
-        turn = Turn.blackTurn;
+        turn = Turn.BLACK;
         playable = true;
-        gameMode = GameMode.multi;
+        gameMode = GameMode.MULTI;
         init();
     }
 
@@ -85,7 +86,8 @@ public class ChessCounter {
                         String winner;
                         if( chess[i][j] == 1) winner = "Fekate";
                         else winner = "Fehér";
-                        MessageFrame m = new MessageFrame(winner + " megnyert!");
+                        showMessageDialog(null, winner + " nyert!", "Vége a játéknak", INFORMATION_MESSAGE);
+
                         return;
                     }
                 }

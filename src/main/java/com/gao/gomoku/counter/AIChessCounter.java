@@ -4,7 +4,7 @@ public class AIChessCounter extends ChessCounter {
 
     public AIChessCounter(){
         super();
-        gameMode = GameMode.single;
+        gameMode = GameMode.SINGLE;
     }
 
     //lépés
@@ -134,7 +134,6 @@ public class AIChessCounter extends ChessCounter {
         }
         return count;
     }
-
 
     private boolean mustPressedLogic(int level){
         for(int i = 0; i < 15; i++){
