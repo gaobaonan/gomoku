@@ -22,15 +22,15 @@ public class GomokuBoard extends JFrame {
 //        Painting.chessPainting(g, cc);
 //    }
 
-    private void win(){
-        if (cc.winner() != 0) {
-            String winner = "";
-            if (cc.winner() == 1) winner = "Fekete";
-            else winner = "Fehér";
-            System.out.println(winner + " megnyert!!!!");
-            cc.setPlayable(false);
-        }
-    }
+//    private void win(){
+//        if (cc.winner() != 0) {
+//            String winner = "";
+//            if (cc.winner() == 1) winner = "Fekete";
+//            else winner = "Fehér";
+//            System.out.println(winner + " megnyert!!!!");
+//            cc.setPlayable(false);
+//        }
+//    }
 
     private void initUI(){
         basicSetting();

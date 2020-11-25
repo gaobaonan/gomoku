@@ -1,5 +1,7 @@
-package com.gao.gomoku;
+package com.gao.gomoku.menu;
 
+import com.gao.gomoku.file.FileFrame;
+import com.gao.gomoku.gameBoard.GomokuBoard;
 import com.gao.gomoku.counter.AIChessCounter;
 import com.gao.gomoku.counter.ChessCounter;
 

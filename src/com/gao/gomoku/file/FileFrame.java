@@ -1,7 +1,9 @@
-package com.gao.gomoku;
+package com.gao.gomoku.file;
 
 import com.gao.gomoku.counter.AIChessCounter;
 import com.gao.gomoku.counter.ChessCounter;
+import com.gao.gomoku.gameBoard.GomokuBoard;
+import com.gao.gomoku.gameBoard.MessageFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -101,30 +103,30 @@ public class FileFrame extends JFrame {
             fr = new FileReader(name);
         }
         catch (IOException exc){
-            System.out.println("file not found");
+            MessageFrame m = new MessageFrame("az adott fájl nem található!");
         }
 
-        BufferedReader br = new BufferedReader(fr);
-        String[] firstLine =  br.readLine().split(" ");
+        if(fr != null){
+            BufferedReader br = new BufferedReader(fr);
+            String[] firstLine =  br.readLine().split(" ");
 
-        for (int i = 0; i < 3; i++)
-        System.out.println("000" + firstLine[i] + "000");
 
-        if(firstLine[0].equals("single")) cc = new AIChessCounter();
-        else cc = new ChessCounter();
-        cc.setTurn(ChessCounter.Turn.valueOf(firstLine[1]));
-        cc.setPlayable(firstLine[2].equals("playable"));
-        for (int i = 0; i < 15; i++){
-            char[] line = br.readLine().toCharArray();
-            for(int j = 0; j < 15; j++){
-                cc.setChess(i, j, Character.getNumericValue(line[j]));
+            if(firstLine[0].equals("single")) cc = new AIChessCounter();
+            else cc = new ChessCounter();
+            cc.setTurn(ChessCounter.Turn.valueOf(firstLine[1]));
+            cc.setPlayable(firstLine[2].equals("playable"));
+            for (int i = 0; i < 15; i++){
+                char[] line = br.readLine().toCharArray();
+                for(int j = 0; j < 15; j++){
+                    cc.setChess(i, j, Character.getNumericValue(line[j]));
+                }
             }
-        }
-        br.close();
-        fr.close();
+            br.close();
+            fr.close();
 
-        GomokuBoard b = new GomokuBoard(cc);
-        b.setVisible(true);
+            GomokuBoard b = new GomokuBoard(cc);
+            b.setVisible(true);
+        }
     }
 }
 

@@ -14,8 +14,6 @@ public class UIediter {
 
     ChessCounter cc;
 
-    GomokuBoard useless;
-
     private JPanel boardPanel;
     private JPanel UIPanel;
     private JButton cancel;
@@ -27,8 +25,8 @@ public class UIediter {
     public UIediter(ChessCounter cc){
         this.cc = cc;
         boardPainting();
-        buttonSetting();
         UISetting();
+        buttonListener();
     }
 
     public JPanel createBoardPanel(){
@@ -57,7 +55,8 @@ public class UIediter {
                     int x = e.getX();
                     int y = e.getY();
                     int distance = 30;
-                    //判断点击是否在棋盘内
+
+                    //
                     if (x >= 15 && x < 15 + distance * 15 && y >= 25 && y < 25 + distance * 15 && cc.getPlayable()) {
                         x = (x - 15) / distance;
                         y = (y - 25) / distance;
@@ -79,6 +78,7 @@ public class UIediter {
                                 cc.setTurn(ChessCounter.Turn.blackTurn);
                                 cc.setPlayable(true);
                             }
+                            cc.win();
                         }
                     }
                 }
@@ -89,19 +89,17 @@ public class UIediter {
 
     }
 
-    private void buttonSetting(){
-        restart = new JButton("újrakezdés");
+    private void buttonListener(){
         restart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cc.init();
                 cc.setPlayable(true);
                 cc.setTurn(ChessCounter.Turn.blackTurn);
-                useless.repaint();
+                boardPanel.repaint();
             }
         });
 
-        cancel = new JButton("visszalépés");
         cancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,19 +108,25 @@ public class UIediter {
                     if(cc.getGameMode() == ChessCounter.GameMode.multi)
                         if (cc.getTurn() == ChessCounter.Turn.blackTurn) cc.setTurn(ChessCounter.Turn.whiteTurn);
                         else cc.setTurn(ChessCounter.Turn.blackTurn);
-                    useless.repaint();
+                    boardPanel.repaint();
 
                 }
             }
         });
 
-        save = new JButton("mentés");
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FileFrame ff =new FileFrame(FileFrame.IO.save, cc);
             }
         });
+    }
+
+    private void UISetting(){
+
+        restart = new JButton("újrakezdés");
+        cancel = new JButton("visszalépés");
+        save = new JButton("mentés");
 
         blackPicture = new JPanel(){
             ImageIcon icon= new ImageIcon("resources/heiqi.png");
@@ -143,9 +147,7 @@ public class UIediter {
             }
         };
         whitePicture.setSize(120,120);
-    }
 
-    private void UISetting(){
         UIPanel = new JPanel();
         Box b2 = Box.createVerticalBox();
         UIPanel.add(Box.createHorizontalStrut(500));

@@ -1,5 +1,7 @@
 package com.gao.gomoku.counter;
 
+import com.gao.gomoku.gameBoard.MessageFrame;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,17 +76,21 @@ public class ChessCounter {
     //megnyerés
     //számol az öszzes darabnak követett sorozatoknak maximális hosszát
     //return 0: egyik sem nyer, 1: fekete megnyri, 2: fehér megnyeri
-    public int winner(){
+    public void win(){
         for(int i = 0; i < 15; i++){
             for(int j = 0; j < 15; j++){
                 if(chess[i][j] == 1 || chess[i][j] == 2){
                     if(countAll(i,j) >= 5){
-                        return chess[i][j];
+                        playable = false;
+                        String winner;
+                        if( chess[i][j] == 1) winner = "Fekate";
+                        else winner = "Fehér";
+                        MessageFrame m = new MessageFrame(winner + " megnyert!");
+                        return;
                     }
                 }
             }
         }
-        return 0;
     }
 
     //no-op

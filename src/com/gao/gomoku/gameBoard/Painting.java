@@ -6,24 +6,35 @@ import java.awt.*;
 
 public class Painting {
 
+    private static int xStartPoint = 30;
+    private static int yStartPoint = 40;
+
+    private static int chessRadius = 9;
+
+    private static int blockSzie = 30;
+    private static int windowThick = 4;
+    private static int spacing = 15;
+    private static int circleRadius = 3;
+
+
     public static void chessPainting(Graphics g, ChessCounter cc){
 
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
-                //黑子
+                //
                 if (cc.getValueAt(i,j) == 1) {
-                    int tempX = i * 30 + 30;
-                    int tempY = j * 30 + 40;
-                    g.fillOval(tempX - 9, tempY - 9, 18, 18);
+                    int tempX = i * blockSzie + xStartPoint;
+                    int tempY = j * blockSzie + yStartPoint;
+                    g.fillOval(tempX - chessRadius, tempY - chessRadius, chessRadius*2, chessRadius*2);
                 }
-                //白子
+                //
                 if (cc.getValueAt(i,j) == 2) {
-                    int tempX = i * 30 + 30;
-                    int tempY = j * 30 + 40;
+                    int tempX = i * blockSzie + xStartPoint;
+                    int tempY = j * blockSzie + yStartPoint;
                     g.setColor(Color.WHITE);
-                    g.fillOval(tempX - 9, tempY - 9, 18, 18);
+                    g.fillOval(tempX - chessRadius, tempY - chessRadius, chessRadius*2, chessRadius*2);
                     g.setColor(Color.BLACK);
-                    g.drawOval(tempX - 9, tempY - 9, 18, 18);
+                    g.drawOval(tempX - chessRadius, tempY - chessRadius, chessRadius*2, chessRadius*2);
                 }
             }
         }
@@ -35,23 +46,23 @@ public class Painting {
         g.fillRect(15,25,450,450);
         g.setColor(Color.BLACK);
 
-        //棋盘
+        //
         for (int i = 0; i < 15; i++) {
-            g.drawLine(30, 40 + 30 * i, 450, 40 + 30 * i);
-            g.drawLine(30 + 30 * i, 40, 30 + 30 * i, 460);
+            g.drawLine(xStartPoint, yStartPoint + blockSzie * i, xStartPoint + blockSzie * 14, yStartPoint + blockSzie * i);
+            g.drawLine(xStartPoint + blockSzie * i, yStartPoint, xStartPoint + blockSzie * i, yStartPoint + blockSzie * 14);
         }
 
-        g.fillRect(13,23,4,454);
-        g.fillRect(13,23,454,4);
-        g.fillRect(463,23,4,454);
-        g.fillRect(13,473,454,4);
+        g.fillRect(xStartPoint - windowThick/2 - spacing,yStartPoint - windowThick/2 -spacing,windowThick,blockSzie*15 + windowThick);
+        g.fillRect(xStartPoint - windowThick/2 - spacing,yStartPoint - windowThick/2 -spacing,blockSzie*15 + windowThick,windowThick);
+        g.fillRect(xStartPoint - windowThick/2 - spacing + blockSzie*15,yStartPoint - windowThick/2 -spacing, windowThick,blockSzie*15 + windowThick);
+        g.fillRect(xStartPoint - windowThick/2 - spacing,yStartPoint - windowThick/2 -spacing + blockSzie*15,blockSzie*15 + windowThick,windowThick);
 
-        //标注点位
-        g.fillOval(117, 157, 6, 6);
-        g.fillOval(117, 397, 6, 6);
-        g.fillOval(357, 397, 6, 6);
-        g.fillOval(357, 157, 6, 6);
-        g.fillOval(237, 277, 6, 6);
+        //
+        g.fillOval(xStartPoint + blockSzie*3 - circleRadius, yStartPoint + blockSzie*3 - circleRadius, circleRadius*2, circleRadius*2);
+        g.fillOval(xStartPoint + blockSzie*3 - circleRadius, yStartPoint + blockSzie*11 - circleRadius, circleRadius*2, circleRadius*2);
+        g.fillOval(xStartPoint + blockSzie*11 - circleRadius, yStartPoint + blockSzie*3 - circleRadius, circleRadius*2, circleRadius*2);
+        g.fillOval(xStartPoint + blockSzie*11 - circleRadius, yStartPoint + blockSzie*11 - circleRadius, circleRadius*2, circleRadius*2);
+        g.fillOval(xStartPoint + blockSzie*7 - circleRadius, yStartPoint + blockSzie*7 - circleRadius, circleRadius*2, circleRadius*2);
     }
 
 
