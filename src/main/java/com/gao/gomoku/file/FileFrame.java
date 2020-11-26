@@ -3,7 +3,8 @@ package com.gao.gomoku.file;
 import com.gao.gomoku.counter.AIChessCounter;
 import com.gao.gomoku.counter.ChessCounter;
 import com.gao.gomoku.gameBoard.GomokuBoard;
-import com.gao.gomoku.gameBoard.MessageFrame;
+import com.gao.gomoku.counter.ChessCounter.Step;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -75,7 +77,7 @@ public class FileFrame extends JFrame {
 
     private void saveSetting(ChessCounter cc, String buttonName) throws IOException {
 
-        String name = "save/" + buttonName + ".txt";
+        String name = "save/" + buttonName + ".gmk";
         FileWriter fw = null;
         try {
             fw = new FileWriter(name);
@@ -94,11 +96,14 @@ public class FileFrame extends JFrame {
             }
             fw.write("\r\n");
         }
+        Stack<Step> stepStack = cc.getStepStack();
+        for(Step s : stepStack)
+            fw.write(s.getX() + " " + s.getY() + "\r\n");
         fw.close();
     }
 
     private void loadSetting(ChessCounter cc, String buttonName) throws IOException {
-        String name = "save/" + buttonName + ".txt";
+        String name = "save/" + buttonName + ".gmk";
         try(BufferedReader br = new BufferedReader(new FileReader(name))){
             String[] firstLine =  br.readLine().split(" ");
 
@@ -111,6 +116,14 @@ public class FileFrame extends JFrame {
                 for(int j = 0; j < 15; j++){
                     cc.setChess(i, j, Character.getNumericValue(line[j]));
                 }
+            }
+            while (true){
+                String stackLine = br.readLine();
+                if(stackLine != null){
+                    String[] stackParameter = stackLine.split(" ");
+                    cc.pushToStack(Integer.parseInt(stackParameter[0]), Integer.parseInt(stackParameter[1]));
+                }
+                else break;
             }
 
             GomokuBoard b = new GomokuBoard(cc);

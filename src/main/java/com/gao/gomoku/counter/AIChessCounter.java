@@ -138,19 +138,18 @@ public class AIChessCounter extends ChessCounter {
     private boolean mustPressedLogic(int level){
         for(int i = 0; i < 15; i++){
             for (int j = 0; j < 15; j++){
+                boolean press = false;
                 if(chess[i][j] == 0){
                     if(level == 1){
                         chess[i][j] = 2;
                         if(five(i,j) >= 1)
-                            return true;
+                            press = true;
                     }
 
                     else if(level == 2){
                         chess[i][j] = 1;
-                        if(five(i,j) >= 1){
-                            chess[i][j] = 2;
-                            return true;
-                        }
+                        if(five(i,j) >= 1)
+                            press = true;
                     }
 
                     else if(level == 3){
@@ -158,31 +157,33 @@ public class AIChessCounter extends ChessCounter {
                         if(livedFour(i,j) >= 1
                                 || blockedFour(i,j) >= 2
                                 || (blockedFour(i,j) >= 1 && livedThree(i,j) >= 1))
-                            return true;
+                            press = true;
                     }
 
                     else if (level == 4){
                         chess[i][j] = 1;
                         if(livedFour(i,j) >= 1
                                 || blockedFour(i,j) >= 2
-                                || (blockedFour(i,j) >= 1 && livedThree(i,j) >= 1)){
-                            chess[i][j] = 2;
-                            return true;
-                        }
+                                || (blockedFour(i,j) >= 1 && livedThree(i,j) >= 1))
+                            press = true;
                     }
 
                     else if(level == 5){
                         chess[i][j] = 2;
                         if (livedThree(i,j) >= 2)
-                            return true;
+                            press = true;
                     }
 
                     else if(level == 6){
                         chess[i][j] = 1;
-                        if (livedThree(i,j) >= 2){
-                            chess[i][j] = 2;
-                            return true;
-                        }
+                        if (livedThree(i,j) >= 2)
+                            press = true;
+
+                    }
+                    if(press){
+                        chess[i][j] = 2;
+                        pushToStack(i,j);
+                        return true;
                     }
                     chess[i][j] = 0;
                 }
@@ -235,6 +236,7 @@ public class AIChessCounter extends ChessCounter {
             }
         }
         chess[x][y] = 2;
+        pushToStack(x,y);
     }
 
 }

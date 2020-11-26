@@ -1,13 +1,19 @@
 package com.gao.gomoku.counter;
 
-import com.gao.gomoku.gameBoard.MessageFrame;
-
-import javax.swing.*;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 import static javax.swing.JOptionPane.*;
 
 public class ChessCounter {
 
+    public class Step{
+        private int x;
+        private int y;
+        public Step(int x, int y){ this.x = x; this.y = y; }
+        public int getX(){ return x; }
+        public int getY(){ return y; }
+    }
 
     public enum GameMode{SINGLE, MULTI}
     public enum Turn{BLACK, WHITE}
@@ -17,11 +23,11 @@ public class ChessCounter {
     protected boolean playable;
 
     protected int[][] chess;
-    protected int[][] lastTimeChess;
+    Stack<Step> stepStack;
 
     public ChessCounter(){
         chess = new int[15][15];
-        lastTimeChess = new int[15][15];
+        stepStack = new Stack<Step>();
         turn = Turn.BLACK;
         playable = true;
         gameMode = GameMode.MULTI;
@@ -39,6 +45,13 @@ public class ChessCounter {
 
     public GameMode getGameMode() { return gameMode; }
 
+    public Stack<Step> getStepStack(){
+        Stack<Step> ss = new Stack<Step>();
+        for(Step s : stepStack)
+            ss.push(s);
+        return ss;
+    }
+
     //setter
     public void setChess(int x, int y, int v) { chess[x][y] = v; }
 
@@ -46,22 +59,23 @@ public class ChessCounter {
 
     public void setTurn(Turn t) { turn = t; }
 
-    //frisítés, visszalépésre készült
-    public void refresh(){
-        for(int i = 0; i < 15; i++){
-            for(int j = 0; j < 15; j++){
-                lastTimeChess[i][j] = chess[i][j];
-            }
-        }
-    }
+    public void pushToStack(int x, int y){ stepStack.push(new Step(x,y)); }
 
     //visszalépés
-    public void cancel(){
-        for(int i = 0; i < 15; i++){
-            for(int j = 0; j < 15; j++){
-                chess[i][j] = lastTimeChess[i][j];
+    public boolean cancel(){
+        boolean changeTurn = !stepStack.empty();
+        try {
+            Step lastStep = stepStack.pop();
+            setChess(lastStep.x, lastStep.y, 0);
+            if (gameMode == GameMode.SINGLE){
+                Step lastStep2 = stepStack.pop();
+                setChess(lastStep2.x, lastStep2.y, 0);
             }
         }
+        catch (EmptyStackException exception){
+            showMessageDialog(null, "Üres a pálya!", "", INFORMATION_MESSAGE);
+        }
+        return changeTurn;
     }
 
     //inicializálás
@@ -69,7 +83,6 @@ public class ChessCounter {
         for(int i = 0; i < 15; i++){
             for(int j = 0; j < 15; j++){
                 chess[i][j] = 0;
-                lastTimeChess[i][j] = chess[i][j];
             }
         }
     }
@@ -78,21 +91,27 @@ public class ChessCounter {
     //számol az öszzes darabnak követett sorozatoknak maximális hosszát
     //return 0: egyik sem nyer, 1: fekete megnyri, 2: fehér megnyeri
     public void win(){
-        for(int i = 0; i < 15; i++){
-            for(int j = 0; j < 15; j++){
-                if(chess[i][j] == 1 || chess[i][j] == 2){
-                    if(countAll(i,j) >= 5){
-                        playable = false;
-                        String winner;
-                        if( chess[i][j] == 1) winner = "Fekate";
-                        else winner = "Fehér";
-                        showMessageDialog(null, winner + " nyert!", "Vége a játéknak", INFORMATION_MESSAGE);
+        if(!stepStack.empty()){
+            int x = stepStack.peek().getX();
+            int y = stepStack.peek().getY();
+            if(countAll(x,y) >= 5){
+                playable = false;
+                String winner;
+                if( chess[x][y] == 1) winner = "Fekate";
+                else winner = "Fehér";
+                showMessageDialog(null, winner + " nyert!", "Vége a játéknak", INFORMATION_MESSAGE);
+                return;
+            }
 
-                        return;
-                    }
+            for(int i = 0; i < 15; i++){
+                for(int j = 0; j < 15; j++){
+                    if(chess[i][j] == 0) return;
                 }
             }
+            playable = false;
+            showMessageDialog(null, "Húz!", "Vége a játéknak", INFORMATION_MESSAGE);
         }
+
     }
 
     //no-op

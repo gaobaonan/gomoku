@@ -7,16 +7,12 @@ import com.gao.gomoku.counter.ChessCounter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Menu extends JFrame {
 
     private ChessCounter cc;
     private GomokuBoard b;
 
-    private Box b1;
-    private JLabel title;
     private JButton singlePlayer;
     private JButton multiplayer;
     private JButton load;
@@ -44,12 +40,12 @@ public class Menu extends JFrame {
         load = new JButton("kinyitás");
         load.setPreferredSize(new Dimension(120,30));
 
-        exit = new JButton("kilép");
+        exit = new JButton("kilépés");
         exit.setPreferredSize(new Dimension(120,30));
 
-        title= new JLabel("G o m o k u");
+        JLabel title = new JLabel("G o m o k u");
         title.setAlignmentX(CENTER_ALIGNMENT);
-        title.setFont(new Font("gomokuFont",1,40));
+        title.setFont(new Font("gomokuFont", Font.BOLD,40));
 
 
         JPanel menuPanel = new JPanel();
@@ -91,36 +87,20 @@ public class Menu extends JFrame {
 
     private void buttonListener(){
 
-        singlePlayer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cc = new AIChessCounter();
-                b = new GomokuBoard(cc);
-                b.setVisible(true);
-            }
+        singlePlayer.addActionListener(e -> {
+            cc = new AIChessCounter();
+            b = new GomokuBoard(cc);
+            b.setVisible(true);
         });
 
-        multiplayer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cc = new ChessCounter();
-                b = new GomokuBoard(cc);
-                b.setVisible(true);
-            }
+        multiplayer.addActionListener(e -> {
+            cc = new ChessCounter();
+            b = new GomokuBoard(cc);
+            b.setVisible(true);
         });
 
-        load.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                FileFrame f = new FileFrame(FileFrame.IO.load, cc);
-            }
-        });
+        load.addActionListener(e -> new FileFrame(FileFrame.IO.load, cc));
 
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        exit.addActionListener(e -> System.exit(0));
     }
 }

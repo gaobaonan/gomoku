@@ -8,6 +8,6 @@ public class Main {
         //GomokuBoard gm = new GomokuBoard(ChessCounter.GameMode.single);
         //gm.setVisible(true);
 
-        Menu m = new Menu();
+        new Menu();
     }
 }
