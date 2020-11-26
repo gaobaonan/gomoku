@@ -1,0 +1,2 @@
+com/gao/gomoku/counter/ChessCounterTest.java
+ com.gao.gomoku.counter.ChessCounterTest
