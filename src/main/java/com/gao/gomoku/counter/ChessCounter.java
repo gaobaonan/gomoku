@@ -7,9 +7,9 @@ import static javax.swing.JOptionPane.*;
 
 public class ChessCounter {
 
-    public class Step{
-        private int x;
-        private int y;
+    public static class Step{
+        private final int x;
+        private final int y;
         public Step(int x, int y){ this.x = x; this.y = y; }
         public int getX(){ return x; }
         public int getY(){ return y; }
@@ -23,11 +23,11 @@ public class ChessCounter {
     protected boolean playable;
 
     protected int[][] chess;
-    Stack<Step> stepStack;
+    protected Stack<Step> stepStack;
 
     public ChessCounter(){
         chess = new int[15][15];
-        stepStack = new Stack<Step>();
+        stepStack = new Stack<>();
         turn = Turn.BLACK;
         playable = true;
         gameMode = GameMode.MULTI;
@@ -46,7 +46,7 @@ public class ChessCounter {
     public GameMode getGameMode() { return gameMode; }
 
     public Stack<Step> getStepStack(){
-        Stack<Step> ss = new Stack<Step>();
+        Stack<Step> ss = new Stack<>();
         for(Step s : stepStack)
             ss.push(s);
         return ss;
@@ -59,7 +59,7 @@ public class ChessCounter {
 
     public void setTurn(Turn t) { turn = t; }
 
-    public void pushToStack(int x, int y){ stepStack.push(new Step(x,y)); }
+    public void pushToStack(int x, int y){ stepStack.push(new Step(x, y)); }
 
     //visszalépés
     public boolean cancel(){
@@ -96,9 +96,7 @@ public class ChessCounter {
             int y = stepStack.peek().getY();
             if(countAll(x,y) >= 5){
                 playable = false;
-                String winner;
-                if( chess[x][y] == 1) winner = "Fekate";
-                else winner = "Fehér";
+                String winner = ( chess[x][y] == 1)? "Fekede" : "Fehér";
                 showMessageDialog(null, winner + " nyert!", "Vége a játéknak", INFORMATION_MESSAGE);
                 return;
             }
@@ -114,33 +112,42 @@ public class ChessCounter {
 
     }
 
-    //no-op
-    //sss
+    /**
+     *
+     */
     public void step(){ }
 
-    //számol az adott helyi darabnak követett sorozatnak hosszát
-    //mode = 0: sor, 1: oszlop, 2: jobb-ferde, 3: bal-felde
+    /**
+     * számol az adott helyi darabnak követett sorozatnak hosszát
+     * @param x x érték
+     * @param y y érték
+     * @param mode = 0: sor, 1: oszlop, 2: jobb-ferde, 3: bal-felde
+     * @return elszámolt hosszát
+     */
     protected int countLine(int x, int y, int mode){
         int count = -1;
-        int x1 = x, x2 = x, y1 = y, y2 = y;
+        int x1 = x;
+        int x2 = x;
+        int y1 = y;
+        int y2 = y;
 
         while (true){
             if(x1 < 0 || y1 < 0 || x1 >= 15 || y1 >= 15 || count >= 5)  break;
             else if(chess[x1][y1] == chess[x][y]) {
                 count++;
-                switch(mode){
-                    case 0:
+                switch (mode) {
+                    case 0 -> x1++;
+                    case 1 -> y1++;
+                    case 2 -> {
                         x1++;
-                        break;
-                    case 1:
+                        y1--;
+                    }
+                    case 3 -> {
+                        x1++;
                         y1++;
-                        break;
-                    case 2:
-                        x1++; y1--;
-                        break;
-                    case 3:
-                        x1++; y1++;
-                        break;}
+                    }
+                    default -> throw new IllegalStateException("Unexpected value: " + mode);
+                }
             }
             else
                 break;
@@ -150,19 +157,18 @@ public class ChessCounter {
             if(x2 < 0 || y2 < 0 || x2 >= 15 || y2 >= 15 || count >= 5)  break;
             else if(chess[x2][y2] == chess[x][y]) {
                 count++;
-                switch(mode){
-                    case 0:
+                switch (mode) {
+                    case 0 -> x2--;
+                    case 1 -> y2--;
+                    case 2 -> {
                         x2--;
-                        break;
-                    case 1:
+                        y2++;
+                    }
+                    case 3 -> {
+                        x2--;
                         y2--;
-                        break;
-                    case 2:
-                        x2--; y2++;
-                        break;
-                    case 3:
-                        x2--; y2--;
-                        break;
+                    }
+                    default -> throw new IllegalStateException("Unexpected value: " + mode);
                 }
             }
             else
@@ -175,8 +181,6 @@ public class ChessCounter {
     protected int countAll(int x, int y){
         int tmp1 = Math.max(countLine(x, y, 0), countLine(x, y, 1));
         int tmp2 = Math.max(countLine(x, y, 2), countLine(x, y, 3));
-        int lengthMax = Math.max(tmp1, tmp2);
-
-        return lengthMax;
+        return Math.max(tmp1, tmp2);
     }
 }

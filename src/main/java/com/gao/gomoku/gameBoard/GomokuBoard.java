@@ -3,11 +3,9 @@ package com.gao.gomoku.gameBoard;
 import com.gao.gomoku.counter.ChessCounter;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class GomokuBoard extends JFrame {
 
-    UIediter ui;
     private ChessCounter cc;
 
     public GomokuBoard(ChessCounter cc) {
@@ -17,7 +15,7 @@ public class GomokuBoard extends JFrame {
 
     private void init(){
         basicSetting();
-        UISetting();
+        uisetting();
     }
 
     private void basicSetting(){
@@ -34,9 +32,8 @@ public class GomokuBoard extends JFrame {
         setVisible(false);
     }
 
-    private void UISetting(){
-//        setLayout(new FlowLayout());
-        ui = new UIediter(cc);
+    private void uisetting(){
+        UIediter ui = new UIediter(cc);
         add(ui.createBoardPanel());
         add(ui.createUIPanel());
     }

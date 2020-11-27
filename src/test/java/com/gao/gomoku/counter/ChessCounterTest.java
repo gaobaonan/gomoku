@@ -16,7 +16,7 @@ public class ChessCounterTest {
     }
 
     @Test
-    public void testWinning() {
+    public void testCountLine1() {
         cc.setChess(0,0,1);
         cc.setChess(1,1,1);
         cc.setChess(2,2,1);

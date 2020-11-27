@@ -46,7 +46,7 @@ public class Painting {
         }
     }
 
-    public static void ChessboardPainting(Graphics g){
+    public static void chessboardPainting(Graphics g){
 
         g.setColor(Color.orange);
         g.fillRect(15,25,450,450);

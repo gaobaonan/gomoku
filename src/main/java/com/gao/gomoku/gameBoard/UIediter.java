@@ -24,7 +24,7 @@ public class UIediter {
     public UIediter(ChessCounter cc){
         this.cc = cc;
         boardSetting();
-        UISetting();
+        uisetting();
         buttonListener();
     }
 
@@ -41,7 +41,7 @@ public class UIediter {
             @Override
             public void paint(Graphics g) {
                 super.paint(g);
-                Painting.ChessboardPainting(g);
+                Painting.chessboardPainting(g);
                 Painting.chessPainting(g, cc);
             }
         };
@@ -99,19 +99,18 @@ public class UIediter {
         });
         cancel.addActionListener(e -> {
             if(cc.getPlayable()){
-                if(cc.cancel())
-                    if(cc.getGameMode() == ChessCounter.GameMode.MULTI)
-                        if (cc.getTurn() == ChessCounter.Turn.BLACK) cc.setTurn(ChessCounter.Turn.WHITE);
-                        else cc.setTurn(ChessCounter.Turn.BLACK);
+                if(cc.cancel() && cc.getGameMode() == ChessCounter.GameMode.MULTI)
+                    if (cc.getTurn() == ChessCounter.Turn.BLACK) cc.setTurn(ChessCounter.Turn.WHITE);
+                    else cc.setTurn(ChessCounter.Turn.BLACK);
                 boardPanel.repaint();
 
             }
         });
-        save.addActionListener(e -> new FileFrame(FileFrame.IO.save, cc));
+        save.addActionListener(e -> new FileFrame(FileFrame.IO.SAVE, cc));
         exit.addActionListener(e -> System.exit(0));
     }
 
-    private void UISetting(){
+    private void uisetting(){
         //nyomogobok
         restart = new JButton("újrakezdés");
         restart.setPreferredSize(new Dimension(110,30));
@@ -143,7 +142,7 @@ public class UIediter {
         whitePicture.setPreferredSize(new Dimension(120,120));
 
         //sövegablakok
-        Font f = new Font("labelFont", 0, 20);
+        Font f = new Font("labelFont", Font.PLAIN, 20);
         JLabel blackLabel1 = new JLabel("1P:");
         blackLabel1.setFont(f);
         JLabel blackLabel2 = new JLabel("Játékos");
@@ -184,21 +183,21 @@ public class UIediter {
         picturePanel2.add(labelPanel2);
         picturePanel2.add(Box.createHorizontalStrut(25));
 
-        JPanel UIPanel = new JPanel();
-        UIPanel.setLayout(new BoxLayout(UIPanel,BoxLayout.Y_AXIS));
-        UIPanel.add(Box.createVerticalStrut(20));
-        UIPanel.add(picturePanel1);
-        UIPanel.add(Box.createVerticalStrut(60));
-        UIPanel.add(buttonPanel1);
-        UIPanel.add(buttonPanel2);
-        UIPanel.add(Box.createVerticalStrut(60));
-        UIPanel.add(picturePanel2);
-        UIPanel.add(Box.createVerticalStrut(20));
+        JPanel uipanel = new JPanel();
+        uipanel.setLayout(new BoxLayout(uipanel,BoxLayout.Y_AXIS));
+        uipanel.add(Box.createVerticalStrut(20));
+        uipanel.add(picturePanel1);
+        uipanel.add(Box.createVerticalStrut(60));
+        uipanel.add(buttonPanel1);
+        uipanel.add(buttonPanel2);
+        uipanel.add(Box.createVerticalStrut(60));
+        uipanel.add(picturePanel2);
+        uipanel.add(Box.createVerticalStrut(20));
 
         mainPanel = new JPanel();
         mainPanel.setLayout( new BoxLayout(mainPanel,BoxLayout.X_AXIS));
         mainPanel.add(Box.createHorizontalStrut(470));
-        mainPanel.add(UIPanel);
+        mainPanel.add(uipanel);
 
 
     }

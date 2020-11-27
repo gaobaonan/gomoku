@@ -25,11 +25,11 @@ public class Menu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
-        UIsetting();
+        uisetting();
 
     }
 
-    private void UIsetting(){
+    private void uisetting(){
 
         singlePlayer = new JButton("Egy játékos");
         singlePlayer.setPreferredSize(new Dimension(120,30));
@@ -99,7 +99,7 @@ public class Menu extends JFrame {
             b.setVisible(true);
         });
 
-        load.addActionListener(e -> new FileFrame(FileFrame.IO.load, cc));
+        load.addActionListener(e -> new FileFrame(FileFrame.IO.LOAD, cc));
 
         exit.addActionListener(e -> System.exit(0));
     }

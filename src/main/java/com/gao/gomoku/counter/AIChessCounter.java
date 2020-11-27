@@ -17,7 +17,10 @@ public class AIChessCounter extends ChessCounter {
     //megszámít az adott darabnak két határa lyokas-e
     private int countLimit(int x, int y, int mode){
         int hasLimit =0;
-        int x1 = x, x2 = x, y1 = y, y2 = y;
+        int x1 = x;
+        int x2 = x;
+        int y1 = y;
+        int y2 = y;
 
         while (true){
             if(x1 < 0 || y1 < 0 || x1 >= 15 || y1 >= 15 || (chess[x1][y1] != 0 && chess[x1][y1] != chess[x][y])){
@@ -27,19 +30,19 @@ public class AIChessCounter extends ChessCounter {
             else if(chess[x1][y1] == 0)
                 break;
             else {
-                switch(mode){
-                    case 0:
+                switch (mode) {
+                    case 0 -> x1++;
+                    case 1 -> y1++;
+                    case 2 -> {
                         x1++;
-                        break;
-                    case 1:
+                        y1--;
+                    }
+                    case 3 -> {
+                        x1++;
                         y1++;
-                        break;
-                    case 2:
-                        x1++; y1--;
-                        break;
-                    case 3:
-                        x1++; y1++;
-                        break;}
+                    }
+                    default -> throw new IllegalStateException("Unexpected value: " + mode);
+                }
             }
         }
 
@@ -51,19 +54,18 @@ public class AIChessCounter extends ChessCounter {
             else if(chess[x2][y2] == 0)
                 break;
             else{
-                switch(mode){
-                    case 0:
+                switch (mode) {
+                    case 0 -> x2--;
+                    case 1 -> y2--;
+                    case 2 -> {
                         x2--;
-                        break;
-                    case 1:
+                        y2++;
+                    }
+                    case 3 -> {
+                        x2--;
                         y2--;
-                        break;
-                    case 2:
-                        x2--; y2++;
-                        break;
-                    case 3:
-                        x2--; y2--;
-                        break;
+                    }
+                    default -> throw new IllegalStateException("Unexpected value: " + mode);
                 }
             }
         }
@@ -135,52 +137,17 @@ public class AIChessCounter extends ChessCounter {
         return count;
     }
 
-    private boolean mustPressedLogic(int level){
+    /**
+     *
+     * @param color
+     * @return
+     */
+    private boolean mustPressedLogic1(int color){
         for(int i = 0; i < 15; i++){
             for (int j = 0; j < 15; j++){
-                boolean press = false;
                 if(chess[i][j] == 0){
-                    if(level == 1){
-                        chess[i][j] = 2;
-                        if(five(i,j) >= 1)
-                            press = true;
-                    }
-
-                    else if(level == 2){
-                        chess[i][j] = 1;
-                        if(five(i,j) >= 1)
-                            press = true;
-                    }
-
-                    else if(level == 3){
-                        chess[i][j] = 2;
-                        if(livedFour(i,j) >= 1
-                                || blockedFour(i,j) >= 2
-                                || (blockedFour(i,j) >= 1 && livedThree(i,j) >= 1))
-                            press = true;
-                    }
-
-                    else if (level == 4){
-                        chess[i][j] = 1;
-                        if(livedFour(i,j) >= 1
-                                || blockedFour(i,j) >= 2
-                                || (blockedFour(i,j) >= 1 && livedThree(i,j) >= 1))
-                            press = true;
-                    }
-
-                    else if(level == 5){
-                        chess[i][j] = 2;
-                        if (livedThree(i,j) >= 2)
-                            press = true;
-                    }
-
-                    else if(level == 6){
-                        chess[i][j] = 1;
-                        if (livedThree(i,j) >= 2)
-                            press = true;
-
-                    }
-                    if(press){
+                    chess[i][j] = color;
+                    if(five(i,j) >= 1){
                         chess[i][j] = 2;
                         pushToStack(i,j);
                         return true;
@@ -189,24 +156,59 @@ public class AIChessCounter extends ChessCounter {
                 }
             }
         }
-
         return false;
     }
 
-    private boolean mustPressed(){
-        for (int i = 1; i < 7; i++) {
-            if (mustPressedLogic(i)) {
-                return true;
+    private boolean mustPressedLogic2(int color){
+        for(int i = 0; i < 15; i++){
+            for (int j = 0; j < 15; j++){
+                if(chess[i][j] == 0){
+                    chess[i][j] = color;
+                    if(livedFour(i,j) >= 1 ||
+                            blockedFour(i,j) >= 2 ||
+                            (blockedFour(i,j) >= 1 && livedThree(i,j) >= 1)){
+                        chess[i][j] = 2;
+                        pushToStack(i,j);
+                        return true;
+                    }
+                    chess[i][j] = 0;
+                }
             }
         }
         return false;
     }
 
+    private boolean mustPressedLogic3(int color){
+        for(int i = 0; i < 15; i++){
+            for (int j = 0; j < 15; j++){
+                if(chess[i][j] == 0){
+                    chess[i][j] = color;
+                    if (livedThree(i,j) >= 2){
+                        chess[i][j] = 2;
+                        pushToStack(i,j);
+                        return true;
+                    }
+                    chess[i][j] = 0;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean mustPressed(){
+        return mustPressedLogic1(2) ||
+                mustPressedLogic1(1) ||
+                mustPressedLogic2(1) ||
+                mustPressedLogic2(2) ||
+                mustPressedLogic3(1) ||
+                mustPressedLogic3(2);
+    }
+
     //pontszámoló, megkeres a leghatékonyasabb pont
     private void pointCounter(){
-        int x = -1, y = -1;
+        int x = -1;
+        int y = -1;
         int maxPoint = -1;
-
         for(int i = 0; i < 15; i++){
             for (int j = 0; j < 15; j++){
                 if(chess[i][j] == 0){
@@ -224,7 +226,7 @@ public class AIChessCounter extends ChessCounter {
                     point += livedThree(i,j) * 90;
                     point += blockedThree(i,j) * 20;
                     point += livedTwo(i,j) * 80;
-                    point += blockedTwo(i,j) * 1;
+                    point += blockedTwo(i, j);
 
                     chess[i][j] = 0;
                     if(point > maxPoint){

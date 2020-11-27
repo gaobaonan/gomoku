@@ -8,8 +8,6 @@ import com.gao.gomoku.counter.ChessCounter.Step;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +18,9 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class FileFrame extends JFrame {
 
-    public enum IO{ save, load }
+    public enum IO{SAVE, LOAD}
 
-    private JLabel text;
-    private List<JButton> list = new ArrayList();
+    private final List<JButton> list = new ArrayList();
     private JButton exit;
 
 
@@ -34,12 +31,12 @@ public class FileFrame extends JFrame {
         setLayout(layout);
         setVisible(true);
 
-        UISetting();
+        uisetting();
         buttonSetting(io, cc);
     }
 
-    private void UISetting(){
-        text = new JLabel("válaszjon:");
+    private void uisetting(){
+        JLabel text = new JLabel("válaszjon:");
         add(text);
         for(int i = 0; i < 5 ; i++){
             list.add(new JButton("game" + (i+1)));
@@ -51,55 +48,43 @@ public class FileFrame extends JFrame {
     }
 
     private void buttonSetting(IO io, ChessCounter cc){
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        exit.addActionListener(e -> dispose());
 
         for (int i = 0; i < 5; i++) {
             final int serialNumber = i;
-            list.get(i).addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        if(io == IO.load) loadSetting(cc, list.get(serialNumber).getName());
-                        else saveSetting(cc, list.get(serialNumber).getName());
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                    dispose();
+            list.get(i).addActionListener(e -> {
+                try {
+                    if(io == IO.LOAD) loadSetting(cc, list.get(serialNumber).getName());
+                    else saveSetting(cc, list.get(serialNumber).getName());
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
                 }
+                dispose();
             });
         }
     }
 
-    private void saveSetting(ChessCounter cc, String buttonName) throws IOException {
+    private void saveSetting(ChessCounter cc, String buttonName) {
 
         String name = "save/" + buttonName + ".gmk";
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(name);
-        }
-        catch (IOException exc){
-            System.out.println("file not found");
-        }
-
-        fw.write(cc.getGameMode().toString() + " ");
-        fw.write(cc.getTurn().toString() + " ");
-        if(cc.getPlayable()) fw.write("playable\r\n");
-        else fw.write("notplayable\r\n");
-        for (int i = 0; i < 15; i++){
-            for (int j = 0; j < 15; j++){
-                fw.write(cc.getValueAt(i,j) + "");
+        try (FileWriter fw = new FileWriter(name)){
+            fw.write(cc.getGameMode().toString() + " ");
+            fw.write(cc.getTurn().toString() + " ");
+            if(cc.getPlayable()) fw.write("playable\r\n");
+            else fw.write("notplayable\r\n");
+            for (int i = 0; i < 15; i++){
+                for (int j = 0; j < 15; j++){
+                    fw.write(cc.getValueAt(i,j) + "");
+                }
+                fw.write("\r\n");
             }
-            fw.write("\r\n");
+            Stack<Step> stepStack = cc.getStepStack();
+            for(Step s : stepStack)
+                fw.write(s.getX() + " " + s.getY() + "\r\n");
         }
-        Stack<Step> stepStack = cc.getStepStack();
-        for(Step s : stepStack)
-            fw.write(s.getX() + " " + s.getY() + "\r\n");
-        fw.close();
+        catch (IOException exception){
+            showMessageDialog(null, "Fájl nem található!", "hiba", ERROR_MESSAGE);
+        }
     }
 
     private void loadSetting(ChessCounter cc, String buttonName) throws IOException {

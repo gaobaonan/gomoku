@@ -1,16 +1,12 @@
 com/gao/gomoku/gameBoard/Painting.java
  com.gao.gomoku.gameBoard.Painting
-com/gao/gomoku/gameBoard/UIediter.java
- com.gao.gomoku.gameBoard.UIediter
- com.gao.gomoku.gameBoard.UIediter$1
- com.gao.gomoku.gameBoard.UIediter$2
- com.gao.gomoku.gameBoard.UIediter$3
- com.gao.gomoku.gameBoard.UIediter$4
+com/gao/gomoku/Main.java
+ com.gao.gomoku.Main
 com/gao/gomoku/file/FileFrame.java
  com.gao.gomoku.file.FileFrame
- com.gao.gomoku.file.FileFrame$1
- com.gao.gomoku.file.FileFrame$2
  com.gao.gomoku.file.FileFrame$IO
+com/gao/gomoku/menu/Menu.java
+ com.gao.gomoku.menu.Menu
 com/gao/gomoku/counter/ChessCounter.java
  com.gao.gomoku.counter.ChessCounter
  com.gao.gomoku.counter.ChessCounter$GameMode
@@ -20,7 +16,9 @@ com/gao/gomoku/counter/AIChessCounter.java
  com.gao.gomoku.counter.AIChessCounter
 com/gao/gomoku/gameBoard/GomokuBoard.java
  com.gao.gomoku.gameBoard.GomokuBoard
-com/gao/gomoku/Main.java
- com.gao.gomoku.Main
-com/gao/gomoku/menu/Menu.java
- com.gao.gomoku.menu.Menu
+com/gao/gomoku/gameBoard/UIediter.java
+ com.gao.gomoku.gameBoard.UIediter
+ com.gao.gomoku.gameBoard.UIediter$1
+ com.gao.gomoku.gameBoard.UIediter$2
+ com.gao.gomoku.gameBoard.UIediter$3
+ com.gao.gomoku.gameBoard.UIediter$4
