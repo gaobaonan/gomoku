@@ -1,2 +1,8 @@
+com/gao/gomoku/file/FileFrameTest.java
+ com.gao.gomoku.file.FileFrameTest
+com/gao/gomoku/counter/PointCounterTest.java
+ com.gao.gomoku.counter.PointCounterTest
 com/gao/gomoku/counter/ChessCounterTest.java
  com.gao.gomoku.counter.ChessCounterTest
+com/gao/gomoku/counter/AIChessCounterTest.java
+ com.gao.gomoku.counter.AIChessCounterTest

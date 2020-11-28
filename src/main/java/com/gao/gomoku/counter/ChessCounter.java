@@ -73,7 +73,7 @@ public class ChessCounter {
             }
         }
         catch (EmptyStackException exception){
-            showMessageDialog(null, "Üres a pálya!", "", INFORMATION_MESSAGE);
+            throw new EmptyStackException();
         }
         return changeTurn;
     }
@@ -87,29 +87,22 @@ public class ChessCounter {
         }
     }
 
-    //megnyerés
-    //számol az öszzes darabnak követett sorozatoknak maximális hosszát
-    //return 0: egyik sem nyer, 1: fekete megnyri, 2: fehér megnyeri
-    public void win(){
-        if(!stepStack.empty()){
-            int x = stepStack.peek().getX();
-            int y = stepStack.peek().getY();
-            if(countAll(x,y) >= 5){
-                playable = false;
-                String winner = ( chess[x][y] == 1)? "Fekede" : "Fehér";
-                showMessageDialog(null, winner + " nyert!", "Vége a játéknak", INFORMATION_MESSAGE);
-                return;
-            }
-
-            for(int i = 0; i < 15; i++){
-                for(int j = 0; j < 15; j++){
-                    if(chess[i][j] == 0) return;
-                }
-            }
-            playable = false;
-            showMessageDialog(null, "Húz!", "Vége a játéknak", INFORMATION_MESSAGE);
+    public void showOFWin(){
+        int winner = this.win();
+        String title = "Vége a játéknak";
+        switch (winner){
+            case 1:
+                showMessageDialog(null,  "Fekete nyert!", title, INFORMATION_MESSAGE);
+                break;
+            case 2:
+                showMessageDialog(null,  "Fehér nyert!", title, INFORMATION_MESSAGE);
+                break;
+            case 3:
+                showMessageDialog(null, "Húz!", title, INFORMATION_MESSAGE);
+                break;
+            default:
+                break;
         }
-
     }
 
     /**
@@ -125,6 +118,8 @@ public class ChessCounter {
      * @return elszámolt hosszát
      */
     protected int countLine(int x, int y, int mode){
+        if(mode < 0 || mode > 3) throw new IllegalStateException();
+        if(chess[x][y] == 0) return 0;
         int count = -1;
         int x1 = x;
         int x2 = x;
@@ -146,7 +141,7 @@ public class ChessCounter {
                         x1++;
                         y1++;
                     }
-                    default -> throw new IllegalStateException("Unexpected value: " + mode);
+                    default -> throw new IllegalStateException();
                 }
             }
             else
@@ -168,7 +163,7 @@ public class ChessCounter {
                         x2--;
                         y2--;
                     }
-                    default -> throw new IllegalStateException("Unexpected value: " + mode);
+                    default -> throw new IllegalStateException();
                 }
             }
             else
@@ -178,9 +173,33 @@ public class ChessCounter {
     }
 
     //számol az adott helyi darabnak követett sorozatoknak maximális hosszát
-    protected int countAll(int x, int y){
+    protected int countAllLine(int x, int y){
         int tmp1 = Math.max(countLine(x, y, 0), countLine(x, y, 1));
         int tmp2 = Math.max(countLine(x, y, 2), countLine(x, y, 3));
         return Math.max(tmp1, tmp2);
     }
+
+    //megnyerés
+    //számol az öszzes darabnak követett sorozatoknak maximális hosszát
+    //return 0: egyik sem nyer, 1: fekete megnyri, 2: fehér megnyeri
+    protected int win(){
+        if(!stepStack.empty()){
+            int x = stepStack.peek().getX();
+            int y = stepStack.peek().getY();
+            if(countAllLine(x,y) >= 5){
+                playable = false;
+                return chess[x][y];
+            }
+
+            for(int i = 0; i < 15; i++){
+                for(int j = 0; j < 15; j++){
+                    if(chess[i][j] == 0) return 0;
+                }
+            }
+            playable = false;
+            return 3;
+        }
+        return 0;
+    }
+
 }

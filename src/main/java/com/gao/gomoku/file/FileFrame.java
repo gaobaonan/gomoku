@@ -23,7 +23,6 @@ public class FileFrame extends JFrame {
     private final List<JButton> list = new ArrayList();
     private JButton exit;
 
-
     public FileFrame(IO io, ChessCounter cc){
         setBounds(700,200,200,280);
         GridLayout layout = new GridLayout(7,1);
@@ -35,60 +34,8 @@ public class FileFrame extends JFrame {
         buttonSetting(io, cc);
     }
 
-    private void uisetting(){
-        JLabel text = new JLabel("válaszjon:");
-        add(text);
-        for(int i = 0; i < 5 ; i++){
-            list.add(new JButton("game" + (i+1)));
-            list.get(i).setName("gamedata" + (i+1));
-            add(list.get(i));
-        }
-        exit = new JButton("kilépés");
-        add(exit);
-    }
-
-    private void buttonSetting(IO io, ChessCounter cc){
-        exit.addActionListener(e -> dispose());
-
-        for (int i = 0; i < 5; i++) {
-            final int serialNumber = i;
-            list.get(i).addActionListener(e -> {
-                try {
-                    if(io == IO.LOAD) loadSetting(cc, list.get(serialNumber).getName());
-                    else saveSetting(cc, list.get(serialNumber).getName());
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                dispose();
-            });
-        }
-    }
-
-    private void saveSetting(ChessCounter cc, String buttonName) {
-
-        String name = "save/" + buttonName + ".gmk";
-        try (FileWriter fw = new FileWriter(name)){
-            fw.write(cc.getGameMode().toString() + " ");
-            fw.write(cc.getTurn().toString() + " ");
-            if(cc.getPlayable()) fw.write("playable\r\n");
-            else fw.write("notplayable\r\n");
-            for (int i = 0; i < 15; i++){
-                for (int j = 0; j < 15; j++){
-                    fw.write(cc.getValueAt(i,j) + "");
-                }
-                fw.write("\r\n");
-            }
-            Stack<Step> stepStack = cc.getStepStack();
-            for(Step s : stepStack)
-                fw.write(s.getX() + " " + s.getY() + "\r\n");
-        }
-        catch (IOException exception){
-            showMessageDialog(null, "Fájl nem található!", "hiba", ERROR_MESSAGE);
-        }
-    }
-
-    private void loadSetting(ChessCounter cc, String buttonName) throws IOException {
-        String name = "save/" + buttonName + ".gmk";
+    protected void loadSetting(ChessCounter cc, String fileName) throws IOException {
+        String name = "save/" + fileName + ".gmk";
         try(BufferedReader br = new BufferedReader(new FileReader(name))){
             String[] firstLine =  br.readLine().split(" ");
 
@@ -114,8 +61,54 @@ public class FileFrame extends JFrame {
             GomokuBoard b = new GomokuBoard(cc);
             b.setVisible(true);
         }
-        catch(FileNotFoundException exception){
-            showMessageDialog(null, "Fájl nem található!", "Hiba", ERROR_MESSAGE);
+    }
+
+    private void uisetting(){
+        JLabel text = new JLabel("válaszjon:");
+        add(text);
+        for(int i = 0; i < 5 ; i++){
+            list.add(new JButton("game" + (i+1)));
+            list.get(i).setName("gamedata" + (i+1));
+            add(list.get(i));
+        }
+        exit = new JButton("kilépés");
+        add(exit);
+    }
+
+    private void buttonSetting(IO io, ChessCounter cc){
+        exit.addActionListener(e -> dispose());
+
+        for (int i = 0; i < 5; i++) {
+            final int serialNumber = i;
+            list.get(i).addActionListener(e -> {
+                try {
+                    if(io == IO.LOAD) loadSetting(cc, list.get(serialNumber).getName());
+                    else saveSetting(cc, list.get(serialNumber).getName());
+                } catch (IOException exception) {
+                    showMessageDialog(null, "Fájl nem található!", "hiba", ERROR_MESSAGE);
+                }
+                dispose();
+            });
+        }
+    }
+
+    private void saveSetting(ChessCounter cc, String fileName) throws IOException {
+
+        String name = "save/" + fileName + ".gmk";
+        try (FileWriter fw = new FileWriter(name)){
+            fw.write(cc.getGameMode().toString() + " ");
+            fw.write(cc.getTurn().toString() + " ");
+            if(cc.getPlayable()) fw.write("playable\r\n");
+            else fw.write("notplayable\r\n");
+            for (int i = 0; i < 15; i++){
+                for (int j = 0; j < 15; j++){
+                    fw.write(cc.getValueAt(i,j) + "");
+                }
+                fw.write("\r\n");
+            }
+            Stack<Step> stepStack = cc.getStepStack();
+            for(Step s : stepStack)
+                fw.write(s.getX() + " " + s.getY() + "\r\n");
         }
     }
 }

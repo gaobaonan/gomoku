@@ -15,7 +15,10 @@ public class AIChessCounter extends ChessCounter {
     }
 
     //megszámít az adott darabnak két határa lyokas-e
-    private int countLimit(int x, int y, int mode){
+    protected int countLimit(int x, int y, int mode){
+        if (chess[x][y] == 0 || mode < 0 || mode > 3){
+            throw new IllegalStateException();
+        }
         int hasLimit =0;
         int x1 = x;
         int x2 = x;
@@ -41,7 +44,7 @@ public class AIChessCounter extends ChessCounter {
                         x1++;
                         y1++;
                     }
-                    default -> throw new IllegalStateException("Unexpected value: " + mode);
+                    default -> throw new IllegalStateException();
                 }
             }
         }
@@ -65,7 +68,7 @@ public class AIChessCounter extends ChessCounter {
                         x2--;
                         y2--;
                     }
-                    default -> throw new IllegalStateException("Unexpected value: " + mode);
+                    default -> throw new IllegalStateException();
                 }
             }
         }
@@ -92,7 +95,7 @@ public class AIChessCounter extends ChessCounter {
         return count;
     }
 
-    private int blockedFour(int x, int y){
+    protected int blockedFour(int x, int y){
         int count = 0;
         for(int m = 0; m < 4; m++){
             if(countLine(x, y, m) == 4 && countLimit(x, y, m) == 1)
@@ -101,7 +104,7 @@ public class AIChessCounter extends ChessCounter {
         return count;
     }
 
-    private int livedThree(int x, int y){
+    protected int livedThree(int x, int y){
         int count = 0;
         for(int m = 0; m < 4; m++){
             if(countLine(x, y, m) == 3 && countLimit(x, y, m) == 0)
@@ -110,7 +113,7 @@ public class AIChessCounter extends ChessCounter {
         return count;
     }
 
-    private int blockedThree(int x, int y){
+    protected int blockedThree(int x, int y){
         int count = 0;
         for(int m = 0; m < 4; m++){
             if(countLine(x, y, m) == 3 && countLimit(x, y, m) == 1)
@@ -119,7 +122,7 @@ public class AIChessCounter extends ChessCounter {
         return count;
     }
 
-    private int livedTwo(int x, int y){
+    protected int livedTwo(int x, int y){
         int count = 0;
         for(int m = 0; m < 4; m++){
             if(countLine(x, y, m) == 2 && countLimit(x, y, m) == 0)
@@ -128,7 +131,7 @@ public class AIChessCounter extends ChessCounter {
         return count;
     }
 
-    private int blockedTwo(int x, int y){
+    protected int blockedTwo(int x, int y){
         int count = 0;
         for(int m = 0; m < 4; m++){
             if(countLine(x, y, m) == 2 && countLimit(x, y, m) == 1)
@@ -138,11 +141,11 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     *
-     * @param color
-     * @return
+     *ellenőrizik a pláyán van-e olyan pont, ahol muszáj lerakni
+     * @param color: 1 fekete, védekezési szempont; 2 fehér, támadási szempont
+     * @return létezik-e ilyen pont
      */
-    private boolean mustPressedLogic1(int color){
+    protected boolean mustPressedLogic1(int color){
         for(int i = 0; i < 15; i++){
             for (int j = 0; j < 15; j++){
                 if(chess[i][j] == 0){
@@ -159,7 +162,13 @@ public class AIChessCounter extends ChessCounter {
         return false;
     }
 
-    private boolean mustPressedLogic2(int color){
+    /**
+     *ellenőrizik a pláyán van-e olyan pont, ahol muszáj lerakni
+     * de kevésbé fontos mint az "első" logikus
+     * @param color: 1 fekete, védekezési szempont; 2 fehér, támadási szempont
+     * @return létezik-e ilyen pont
+     */
+    protected boolean mustPressedLogic2(int color){
         for(int i = 0; i < 15; i++){
             for (int j = 0; j < 15; j++){
                 if(chess[i][j] == 0){
@@ -178,7 +187,13 @@ public class AIChessCounter extends ChessCounter {
         return false;
     }
 
-    private boolean mustPressedLogic3(int color){
+    /**
+     *ellenőrizik a pláyán van-e olyan pont, ahol muszáj lerakni
+     * de kevésbé fontos mint az "első" és a "második" logikus
+     * @param color: 1 fekete, védekezési szempont; 2 fehér, támadási szempont
+     * @return létezik-e ilyen pont
+     */
+    protected boolean mustPressedLogic3(int color){
         for(int i = 0; i < 15; i++){
             for (int j = 0; j < 15; j++){
                 if(chess[i][j] == 0){
@@ -212,23 +227,8 @@ public class AIChessCounter extends ChessCounter {
         for(int i = 0; i < 15; i++){
             for (int j = 0; j < 15; j++){
                 if(chess[i][j] == 0){
-                    int point = 0;
-
-                    chess[i][j] = 1;
-                    point += blockedFour(i,j) * 150;
-                    point += livedThree(i,j) * 100;
-                    point += blockedThree(i,j) * 15;
-                    point += livedTwo(i,j) * 20;
-                    point += blockedTwo(i,j) * 5;
-
-                    chess[i][j] = 2;
-                    point += blockedFour(i,j) * 130;
-                    point += livedThree(i,j) * 90;
-                    point += blockedThree(i,j) * 20;
-                    point += livedTwo(i,j) * 80;
-                    point += blockedTwo(i, j);
-
-                    chess[i][j] = 0;
+                    PointCounter pc = new PointCounter(this);
+                    int point = pc.countPoint(i,j);
                     if(point > maxPoint){
                         x = i;
                         y = j;

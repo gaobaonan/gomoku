@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.EmptyStackException;
+
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class UIediter {
 
@@ -71,7 +75,7 @@ public class UIediter {
                             }
                             cc.pushToStack(x,y);
                             boardPanel.repaint();
-                            cc.win();
+                            cc.showOFWin();
 
                             if(cc.getGameMode() == ChessCounter.GameMode.SINGLE && cc.getPlayable()){
                                 cc.setPlayable(false);
@@ -79,7 +83,7 @@ public class UIediter {
                                 cc.setTurn(ChessCounter.Turn.BLACK);
                                 cc.setPlayable(true);
                                 boardPanel.repaint();
-                                cc.win();
+                                cc.showOFWin();
                             }
                         }
                     }
@@ -98,12 +102,19 @@ public class UIediter {
             boardPanel.repaint();
         });
         cancel.addActionListener(e -> {
-            if(cc.getPlayable()){
-                if(cc.cancel() && cc.getGameMode() == ChessCounter.GameMode.MULTI)
-                    if (cc.getTurn() == ChessCounter.Turn.BLACK) cc.setTurn(ChessCounter.Turn.WHITE);
-                    else cc.setTurn(ChessCounter.Turn.BLACK);
-                boardPanel.repaint();
-
+            try {
+                if(cc.getPlayable()){
+                    if(cc.cancel() && cc.getGameMode() == ChessCounter.GameMode.MULTI)
+                        if (cc.getTurn() != ChessCounter.Turn.BLACK) {
+                            cc.setTurn(ChessCounter.Turn.BLACK);
+                        } else {
+                            cc.setTurn(ChessCounter.Turn.WHITE);
+                        }
+                    boardPanel.repaint();
+                }
+            }
+            catch (EmptyStackException exception){
+                showMessageDialog(null, "Üres a pálya!", "", INFORMATION_MESSAGE);
             }
         });
         save.addActionListener(e -> new FileFrame(FileFrame.IO.SAVE, cc));
