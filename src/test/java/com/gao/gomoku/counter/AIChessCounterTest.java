@@ -5,6 +5,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * AIChessCounterTest
+ * tesztelési osztály a AIChessCounter osztálynak
+ * cc: tesztelésre használt játék pálya
+ */
 public class AIChessCounterTest {
 
     AIChessCounter cc;

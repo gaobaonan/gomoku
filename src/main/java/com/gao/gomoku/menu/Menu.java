@@ -1,41 +1,55 @@
 package com.gao.gomoku.menu;
 
 import com.gao.gomoku.file.FileFrame;
-import com.gao.gomoku.gameBoard.GomokuBoard;
+import com.gao.gomoku.game.GomokuBoard;
 import com.gao.gomoku.counter.AIChessCounter;
 import com.gao.gomoku.counter.ChessCounter;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Menu
+ * a JFrame leszármazott ablak, a játék fő menü, ilyentől keztődik
+ * cc: majd használt játék pálya
+ * b: majd használt játék ablak
+ * singlePalyer: egyedös játék kezdésére használt JButton
+ * multiPlayer: több játékos játék kezdésére használt JButton
+ * load: játék kinyításra használt JButton
+ * exit: kilépésre használt JButton
+ */
 public class Menu extends JFrame {
 
     private ChessCounter cc;
     private GomokuBoard b;
-
     private JButton singlePlayer;
-    private JButton multiplayer;
+    private JButton multiPlayer;
     private JButton load;
     private JButton exit;
 
+    /**
+     * konstruktor
+     * beállítás, UI tervezés
+     */
     public Menu(){
         setBounds(600, 150,400, 450);
         setTitle("Gomoku");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-
         uisetting();
-
     }
 
+    /**
+     * UI tervezés
+     */
     private void uisetting(){
 
         singlePlayer = new JButton("Egy játékos");
         singlePlayer.setPreferredSize(new Dimension(120,30));
 
-        multiplayer = new JButton("Két játékos");
-        multiplayer.setPreferredSize(new Dimension(120,30));
+        multiPlayer = new JButton("Két játékos");
+        multiPlayer.setPreferredSize(new Dimension(120,30));
 
         load = new JButton("kinyitás");
         load.setPreferredSize(new Dimension(120,30));
@@ -60,7 +74,7 @@ public class Menu extends JFrame {
 
         JPanel buttonPanel2 = new JPanel();
         buttonPanel2.setLayout(new FlowLayout());
-        buttonPanel2.add(multiplayer);
+        buttonPanel2.add(multiPlayer);
 
         JPanel buttonPanel3 = new JPanel();
         buttonPanel3.setLayout(new FlowLayout());
@@ -85,15 +99,17 @@ public class Menu extends JFrame {
         buttonListener();
     }
 
+    /**
+     * minden nyomógombnak az eseménynek beállítása
+     */
     private void buttonListener(){
-
         singlePlayer.addActionListener(e -> {
             cc = new AIChessCounter();
             b = new GomokuBoard(cc);
             b.setVisible(true);
         });
 
-        multiplayer.addActionListener(e -> {
+        multiPlayer.addActionListener(e -> {
             cc = new ChessCounter();
             b = new GomokuBoard(cc);
             b.setVisible(true);

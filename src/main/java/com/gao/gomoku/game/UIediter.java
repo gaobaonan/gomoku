@@ -1,4 +1,4 @@
-package com.gao.gomoku.gameBoard;
+package com.gao.gomoku.game;
 
 import com.gao.gomoku.counter.ChessCounter;
 import com.gao.gomoku.file.FileFrame;
@@ -13,6 +13,17 @@ import java.util.EmptyStackException;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
+/**
+ * UIediter
+ * segítőosztály, létrehoz a grafikus játék pályát és a swing-es játék UI-t
+ * cc: adott játék pálya
+ * boardPanel: JPanel típusú grafikus játék pálya
+ * mainPanel: JPanel típusú UI fő tere
+ * cancel: visszatérésre használt JButton
+ * restart: újrakezdésre használt JButton
+ * save: játékot elmentésre használt JButton
+ * exit: kílépésre használt JButton
+ */
 public class UIediter {
 
     ChessCounter cc;
@@ -25,6 +36,11 @@ public class UIediter {
     private JButton exit;
 
 
+    /**
+     * konstruktor
+     * pályaolvasás, beállítás, minden attrbutumnak a elkészülés
+     * @param cc: adott játék pálya
+     */
     public UIediter(ChessCounter cc){
         this.cc = cc;
         boardSetting();
@@ -32,14 +48,27 @@ public class UIediter {
         buttonListener();
     }
 
+    /**
+     * visszaad az elkészült grafikus játék pálya
+     * @return JPanel típusú elkészült grafikus játék pálya
+     */
     public JPanel createBoardPanel(){
         return boardPanel;
     }
 
+    /**
+     * visszaad az elkészült UI
+     * @return JPanel típusú elkészült UI
+     */
     public JPanel createUIPanel(){
         return mainPanel;
     }
 
+    /**
+     * jgrafikus játék pályának az elkészülés
+     * ebben tartalmaz az rajzolás és a egér kattintási Listener
+     * a rajzolás a Painting osztály segítségével valósított
+     */
     private void boardSetting(){
         boardPanel = new JPanel(){
             @Override
@@ -94,6 +123,9 @@ public class UIediter {
 
     }
 
+    /**
+     * minden nyomógombnak az eseménynek beállítása
+     */
     private void buttonListener(){
         restart.addActionListener(e -> {
             cc.init();
@@ -121,6 +153,9 @@ public class UIediter {
         exit.addActionListener(e -> System.exit(0));
     }
 
+    /**
+     * egész UI-nek a tervezése és megvalósítása
+     */
     private void uisetting(){
         //nyomogobok
         restart = new JButton("újrakezdés");

@@ -1,28 +1,37 @@
-package com.gao.gomoku.gameBoard;
+package com.gao.gomoku.game;
 
 import com.gao.gomoku.counter.ChessCounter;
 
 import java.awt.*;
 
+/**
+ * Painting
+ * segítőosztály, statikus rajzolási metódust tartalmaz
+ * szépen rajzolhat egy gomoku játék pályát
+ * a kezdési ponttól keztödik pályát rajzolni
+ * X_P: kézdési pontnak az x értéke
+ * Y_P: kézdési pontnak az y értéke
+ * C_R: lerajzolt követnek a sugára
+ * B_S: pályán tartozott kockának a hosszát
+ * a pálya kivül még rajzolni fog egy külső ablakot, hogy szép legyen az egész pálya
+ * W_S: ablaknak a vastagsága
+ * SP: ablak és pálya között helynek a szélessége
+ */
 public class Painting {
 
-    //rajzolásnak a kezdő pontják
     private static final int X_P = 30;
     private static final int Y_P = 40;
-
-    //daradnak a sugára
     private static final int C_R = 9;
-
-    //minden kockának a mérete
     private static final int B_S = 30;
-    //ablaknak a mérete
-    private static final int W_S = 4;
-    //ablak és pálya között helynek a nagysága
-    private static final int SP = 15;
-    //pályán tartalmat pontoknak a sugárakat
     private static final int P_R = 3;
+    private static final int W_S = 4;
+    private static final int SP = 15;
 
-
+    /**
+     * összes követnek a rajzolása, egy megkapott dinamikus játék pálya alapján rajzol
+     * @param g: Graphics típusú adott rajzpálya
+     * @param cc: adott játék pálya
+     */
     public static void chessPainting(Graphics g, ChessCounter cc){
 
         for (int i = 0; i < 15; i++) {
@@ -46,6 +55,10 @@ public class Painting {
         }
     }
 
+    /**
+     * a pályának és az ablaknak a rajzolása
+     * @param g: Graphics típusú adott rajzpálya
+     */
     public static void chessboardPainting(Graphics g){
 
         g.setColor(Color.orange);
