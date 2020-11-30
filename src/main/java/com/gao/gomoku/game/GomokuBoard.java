@@ -12,7 +12,7 @@ import javax.swing.*;
  */
 public class GomokuBoard extends JFrame {
 
-    private ChessCounter cc;
+    private final ChessCounter cc;
 
     /**
      * konstruktor
@@ -55,7 +55,7 @@ public class GomokuBoard extends JFrame {
      * az ablakba be fogja szúrni az elkészült grafikus játék pálya és a swing-es játék UI
      */
     private void uisetting(){
-        UIediter ui = new UIediter(cc);
+        UIeditor ui = new UIeditor(this, cc);
         add(ui.createBoardPanel());
         add(ui.createUIPanel());
     }

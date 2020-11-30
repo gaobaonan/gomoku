@@ -14,9 +14,10 @@ import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- * UIediter
+ * UIeditor
  * segítőosztály, létrehoz a grafikus játék pályát és a swing-es játék UI-t
  * cc: adott játék pálya
+ * b: tartalmazott játék ablak
  * boardPanel: JPanel típusú grafikus játék pálya
  * mainPanel: JPanel típusú UI fő tere
  * cancel: visszatérésre használt JButton
@@ -24,9 +25,10 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * save: játékot elmentésre használt JButton
  * exit: kílépésre használt JButton
  */
-public class UIediter {
+public class UIeditor {
 
-    ChessCounter cc;
+    private final ChessCounter cc;
+    private final GomokuBoard b;
 
     private JPanel boardPanel;
     private JPanel mainPanel;
@@ -39,10 +41,13 @@ public class UIediter {
     /**
      * konstruktor
      * pályaolvasás, beállítás, minden attrbutumnak a elkészülés
+     *
+     * @param b:  adott játék ablak
      * @param cc: adott játék pálya
      */
-    public UIediter(ChessCounter cc){
+    public UIeditor(GomokuBoard b, ChessCounter cc) {
         this.cc = cc;
+        this.b = b;
         boardSetting();
         uisetting();
         buttonListener();
@@ -50,27 +55,29 @@ public class UIediter {
 
     /**
      * visszaad az elkészült grafikus játék pálya
+     *
      * @return JPanel típusú elkészült grafikus játék pálya
      */
-    public JPanel createBoardPanel(){
+    public JPanel createBoardPanel() {
         return boardPanel;
     }
 
     /**
      * visszaad az elkészült UI
+     *
      * @return JPanel típusú elkészült UI
      */
-    public JPanel createUIPanel(){
+    public JPanel createUIPanel() {
         return mainPanel;
     }
 
     /**
-     * jgrafikus játék pályának az elkészülés
+     * grafikus játék pályának az elkészülés
      * ebben tartalmaz az rajzolás és a egér kattintási Listener
      * a rajzolás a Painting osztály segítségével valósított
      */
-    private void boardSetting(){
-        boardPanel = new JPanel(){
+    private void boardSetting() {
+        boardPanel = new JPanel() {
             @Override
             public void paint(Graphics g) {
                 super.paint(g);
@@ -78,12 +85,12 @@ public class UIediter {
                 Painting.chessPainting(g, cc);
             }
         };
-        boardPanel.setBounds(0,0,470,550);
+        boardPanel.setBounds(0, 0, 470, 550);
 
         boardPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if(cc.getPlayable()) {
+                if (cc.getPlayable()) {
                     int x = e.getX();
                     int y = e.getY();
                     int distance = 30;
@@ -93,20 +100,19 @@ public class UIediter {
                         x = (x - 15) / distance;
                         y = (y - 25) / distance;
 
-                        if (cc.getValueAt(x,y) == 0) {
+                        if (cc.getValueAt(x, y) == 0) {
                             if (cc.getTurn() == ChessCounter.Turn.BLACK) {
-                                cc.setChess(x,y,1);
+                                cc.setChess(x, y, 1);
                                 cc.setTurn(ChessCounter.Turn.WHITE);
-                            }
-                            else {
-                                cc.setChess(x,y,2);
+                            } else {
+                                cc.setChess(x, y, 2);
                                 cc.setTurn(ChessCounter.Turn.BLACK);
                             }
-                            cc.pushToStack(x,y);
+                            cc.pushToStack(x, y);
                             boardPanel.repaint();
                             cc.showOFWin();
 
-                            if(cc.getGameMode() == ChessCounter.GameMode.SINGLE && cc.getPlayable()){
+                            if (cc.getGameMode() == ChessCounter.GameMode.SINGLE && cc.getPlayable()) {
                                 cc.setPlayable(false);
                                 cc.step();
                                 cc.setTurn(ChessCounter.Turn.BLACK);
@@ -126,7 +132,7 @@ public class UIediter {
     /**
      * minden nyomógombnak az eseménynek beállítása
      */
-    private void buttonListener(){
+    private void buttonListener() {
         restart.addActionListener(e -> {
             cc.init();
             cc.setPlayable(true);
@@ -135,57 +141,56 @@ public class UIediter {
         });
         cancel.addActionListener(e -> {
             try {
-                if(cc.getPlayable()){
-                    if(cc.cancel() && cc.getGameMode() == ChessCounter.GameMode.MULTI)
-                        if (cc.getTurn() != ChessCounter.Turn.BLACK) {
-                            cc.setTurn(ChessCounter.Turn.BLACK);
-                        } else {
-                            cc.setTurn(ChessCounter.Turn.WHITE);
-                        }
-                    boardPanel.repaint();
-                }
-            }
-            catch (EmptyStackException exception){
+                if (cc.getPlayable() && cc.cancel() && cc.getGameMode() == ChessCounter.GameMode.MULTI)
+                    if (cc.getTurn() != ChessCounter.Turn.BLACK) {
+                        cc.setTurn(ChessCounter.Turn.BLACK);
+                    } else {
+                        cc.setTurn(ChessCounter.Turn.WHITE);
+                    }
+                boardPanel.repaint();
+            } catch (EmptyStackException exception) {
                 showMessageDialog(null, "Üres a pálya!", "", INFORMATION_MESSAGE);
             }
         });
         save.addActionListener(e -> new FileFrame(FileFrame.IO.SAVE, cc));
-        exit.addActionListener(e -> System.exit(0));
+        exit.addActionListener(e -> b.dispose());
     }
 
     /**
      * egész UI-nek a tervezése és megvalósítása
      */
-    private void uisetting(){
+    private void uisetting() {
         //nyomogobok
         restart = new JButton("újrakezdés");
-        restart.setPreferredSize(new Dimension(110,30));
+        restart.setPreferredSize(new Dimension(110, 30));
         cancel = new JButton("visszalépés");
-        cancel.setPreferredSize(new Dimension(110,30));
+        cancel.setPreferredSize(new Dimension(110, 30));
         save = new JButton("mentés");
-        save.setPreferredSize(new Dimension(110,30));
+        save.setPreferredSize(new Dimension(110, 30));
         exit = new JButton("kilépés");
-        exit.setPreferredSize(new Dimension(110,30));
+        exit.setPreferredSize(new Dimension(110, 30));
 
         //képek
         JPanel blackPicture = new JPanel() {
             final ImageIcon icon = new ImageIcon("resources/heiqi.png");
+
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);    //To change body of overridden methods use File | Settings | File Templates.
                 g.drawImage(icon.getImage(), 0, 0, 120, 120, null);
             }
         };
-        blackPicture.setPreferredSize(new Dimension(120,120));
+        blackPicture.setPreferredSize(new Dimension(120, 120));
         JPanel whitePicture = new JPanel() {
             final ImageIcon icon = new ImageIcon("resources/baiqi.png");
+
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);    //To change body of overridden methods use File | Settings | File Templates.
                 g.drawImage(icon.getImage(), 0, 0, 120, 120, null);
             }
         };
-        whitePicture.setPreferredSize(new Dimension(120,120));
+        whitePicture.setPreferredSize(new Dimension(120, 120));
 
         //sövegablakok
         Font f = new Font("labelFont", Font.PLAIN, 20);
@@ -195,7 +200,7 @@ public class UIediter {
         blackLabel2.setFont(f);
         JLabel whiteLabel1 = new JLabel("2P: ");
         whiteLabel1.setFont(f);
-        JLabel whiteLabel2 = new JLabel((cc.getGameMode() == GameMode.SINGLE?"Számítógép": "Játékos"));
+        JLabel whiteLabel2 = new JLabel((cc.getGameMode() == GameMode.SINGLE ? "Számítógép" : "Játékos"));
         whiteLabel2.setFont(f);
 
         //nyomogombnak parkolása
@@ -230,7 +235,7 @@ public class UIediter {
         picturePanel2.add(Box.createHorizontalStrut(25));
 
         JPanel uipanel = new JPanel();
-        uipanel.setLayout(new BoxLayout(uipanel,BoxLayout.Y_AXIS));
+        uipanel.setLayout(new BoxLayout(uipanel, BoxLayout.Y_AXIS));
         uipanel.add(Box.createVerticalStrut(20));
         uipanel.add(picturePanel1);
         uipanel.add(Box.createVerticalStrut(60));
@@ -241,7 +246,7 @@ public class UIediter {
         uipanel.add(Box.createVerticalStrut(20));
 
         mainPanel = new JPanel();
-        mainPanel.setLayout( new BoxLayout(mainPanel,BoxLayout.X_AXIS));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
         mainPanel.add(Box.createHorizontalStrut(470));
         mainPanel.add(uipanel);
 

@@ -117,6 +117,6 @@ public class Menu extends JFrame {
 
         load.addActionListener(e -> new FileFrame(FileFrame.IO.LOAD, cc));
 
-        exit.addActionListener(e -> System.exit(0));
+        exit.addActionListener(e -> dispose());
     }
 }

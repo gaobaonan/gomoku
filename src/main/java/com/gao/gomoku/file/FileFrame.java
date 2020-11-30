@@ -28,7 +28,7 @@ public class FileFrame extends JFrame {
 
     public enum IO{SAVE, LOAD}
 
-    private final List<JButton> list = new ArrayList();
+    private final List<JButton> list = new ArrayList<>();
     private JButton exit;
 
     /**
@@ -116,14 +116,20 @@ public class FileFrame extends JFrame {
         JLabel text = new JLabel("válaszjon:");
         add(text);
         for(int i = 0; i < 5 ; i++){
-            list.add(new JButton("game" + (i+1)));
-            list.get(i).setName("gamedata" + (i+1));
-            add(list.get(i));
+            JButton button = new JButton("game" + (i+1));
+            button.setName("gamedata" + (i+1));
+            add(button);
+            list.add(button);
         }
         exit = new JButton("kilépés");
         add(exit);
     }
 
+    /**
+     *
+     * @param io
+     * @param cc
+     */
     private void buttonSetting(IO io, ChessCounter cc){
         exit.addActionListener(e -> dispose());
 
