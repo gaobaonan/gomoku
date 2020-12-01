@@ -5,11 +5,19 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * PointCounterTest
+ * tesztelesi osztaly a PointCounter osztalynak
+ * cc: tesztelesre hasznalt jatek palya
+ */
 public class PointCounterTest {
 
     AIChessCounter cc;
     PointCounter pc;
 
+    /**
+     * beallitas
+     */
     @Before
     public void setUp(){
         cc = new AIChessCounter();
@@ -17,7 +25,7 @@ public class PointCounterTest {
     }
 
     /**
-     * támadási számolás tesztelés 1
+     * tamadasi szamolas teszteles 1
      */
     @Test
     public void testCountAttackPoint01(){
@@ -29,7 +37,7 @@ public class PointCounterTest {
     }
 
     /**
-     * támadási számolás tesztelés 2
+     * tamadasi szamolas teszteles 2
      */
     @Test
     public void testCountAttackPoint02(){
@@ -40,7 +48,7 @@ public class PointCounterTest {
     }
 
     /**
-     * támadási számolás tesztelés 3
+     * tamadasi szamolas teszteles 3
      */
     @Test
     public void testCountAttackPoint03(){
@@ -54,7 +62,7 @@ public class PointCounterTest {
     }
 
     /**
-     * támadási számolás tesztelés 4
+     * tamadasi szamolas teszteles 4
      */
     @Test
     public void testCountAttackPoint04(){
@@ -67,7 +75,7 @@ public class PointCounterTest {
     }
 
     /**
-     * védekezési számolás tesztelés 1
+     * vedekezesi szamolas teszteles 1
      */
     @Test
     public void testCountDefenfPoint01(){
@@ -79,7 +87,7 @@ public class PointCounterTest {
     }
 
     /**
-     * védekezési számolás tesztelés 2
+     * vedekezesi szamolas teszteles 2
      */
     @Test
     public void testCountDefenfPoint02(){
@@ -90,7 +98,7 @@ public class PointCounterTest {
     }
 
     /**
-     * védekezési számolás tesztelés 3
+     * vedekezesi szamolas teszteles 3
      */
     @Test
     public void testCountDefenfPoint03(){
@@ -104,7 +112,7 @@ public class PointCounterTest {
     }
 
     /**
-     * védekezési számolás tesztelés 4
+     * vedekezesi szamolas teszteles 4
      */
     @Test
     public void testCountDefenfPoint04(){

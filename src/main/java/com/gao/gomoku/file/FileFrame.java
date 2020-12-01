@@ -4,6 +4,7 @@ import com.gao.gomoku.counter.AIChessCounter;
 import com.gao.gomoku.counter.ChessCounter;
 import com.gao.gomoku.game.GomokuBoard;
 import com.gao.gomoku.counter.ChessCounter.Step;
+import com.gao.gomoku.menu.Menu;
 
 
 import javax.swing.*;
@@ -18,13 +19,13 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * FileFrame
- * a fájl kezelésre meghasznált ablak
- * az osztályi belül metódussal lehet .gmk típusú fájlokat beolvasni és kiírni
- * list: ArrayList-ben tárolt JButton lista, minden JButton egy azonos fájlot lehet elérni
- * exit: kilépésre használt JButton
- * IO típus: paraméterként kapott oszdály müködési modell, az osztály egyszer csak egy modellben fog dolgozni: kiír vagy beolvas
+ * a fajl kezelesre meghasznalt ablak
+ * az osztalyi belul metodussal lehet .gmk tipusú fajlokat beolvasni es kiirni
+ * list: ArrayList-ben tarolt JButton lista, minden JButton egy azonos fajlot lehet elerni
+ * exit: kilepesre hasznalt JButton
+ * IO tipus: parameterkent kapott oszdaly mukodesi modell, az osztaly egyszer csak egy modellben fog dolgozni: kiir vagy beolvas
  */
-public class FileFrame extends JFrame {
+public class FileFrame extends Menu {
 
     public enum IO{SAVE, LOAD}
 
@@ -33,9 +34,9 @@ public class FileFrame extends JFrame {
 
     /**
      * konstruktor
-     * modell megdöntés, beállítás
-     * @param io: müködési modell
-     * @param cc: rajta dolgoztt játék pálya
+     * modell megdontes, beallitas
+     * @param io: mukodesi modell
+     * @param cc: rajta dolgoztt jatek palya
      */
     public FileFrame(IO io, ChessCounter cc){
         setBounds(700,200,200,280);
@@ -49,10 +50,10 @@ public class FileFrame extends JFrame {
     }
 
     /**
-     * beolvasási metódus, io = LOAD esetén dolgozik
-     * @param cc: rajta dolgoztt játék pálya
-     * @param fileName: beolvasott fájlnak a neve
-     * @throws IOException kivétel
+     * beolvasasi metodus, io = LOAD eseten dolgozik
+     * @param cc: rajta dolgoztt jatek palya
+     * @param fileName: beolvasott fajlnak a neve
+     * @throws IOException kivetel
      */
     protected void loadSetting(ChessCounter cc, String fileName) throws IOException {
         String name = "save/" + fileName + ".gmk";
@@ -84,10 +85,10 @@ public class FileFrame extends JFrame {
     }
 
     /**
-     * kiírási metódus, io = SAVE esetén dolgozik
-     * @param cc: rajta dolgoztt játék pálya
-     * @param fileName: kiírt fájlnak a neve
-     * @throws IOException kivétel
+     * kiirasi metodus, io = SAVE eseten dolgozik
+     * @param cc: rajta dolgoztt jatek palya
+     * @param fileName: kiirt fajlnak a neve
+     * @throws IOException kivetel
      */
     private void saveSetting(ChessCounter cc, String fileName) throws IOException {
 
@@ -110,10 +111,10 @@ public class FileFrame extends JFrame {
     }
 
     /**
-     * UI beállítás
+     * UI beallitas
      */
     private void uisetting(){
-        JLabel text = new JLabel("válaszjon:");
+        JLabel text = new JLabel("Select from file:");
         add(text);
         for(int i = 0; i < 5 ; i++){
             JButton button = new JButton("game" + (i+1));
@@ -121,7 +122,7 @@ public class FileFrame extends JFrame {
             add(button);
             list.add(button);
         }
-        exit = new JButton("kilépés");
+        exit = new JButton("close");
         add(exit);
     }
 
@@ -140,7 +141,7 @@ public class FileFrame extends JFrame {
                     if(io == IO.LOAD) loadSetting(cc, list.get(serialNumber).getName());
                     else saveSetting(cc, list.get(serialNumber).getName());
                 } catch (IOException exception) {
-                    showMessageDialog(null, "Fájl nem található!", "hiba", ERROR_MESSAGE);
+                    showMessageDialog(null, "File not found!", "warning", ERROR_MESSAGE);
                 }
                 dispose();
             });

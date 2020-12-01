@@ -7,14 +7,14 @@ import static javax.swing.JOptionPane.*;
 
 /**
  * ChessCounter
- * Játék adat tárolási/ kezelési osztály
- * benne tartalmaz minden játék szükséges adat
- * gamemode: a játék módja, van SINGLE és MULTI érték
- * turn: most melyik játékos jön, van BLACK és WHITE érték
- * playable: most a játék végzik-e
- * chess: pálya adat leírás
- * stepStack: lépés tárolő, Step típusú értéket tárol
- * Step osztály: megmutat egy lépésnek a helye(x: x érték, y: y érték)
+ * Jatek adat tarolasi/ kezelesi osztaly
+ * benne tartalmaz minden jatek szukseges adat
+ * gamemode: a jatek modja, van SINGLE es MULTI ertek
+ * turn: most melyik jatekos jon, van BLACK es WHITE ertek
+ * playable: most a jatek vegzik-e
+ * chess: palya adat leiras
+ * stepStack: lepes tarolo, Step tipusú erteket tarol
+ * Step osztaly: megmutat egy lepesnek a helye(x: x ertek, y: y ertek)
  */
 public class ChessCounter {
 
@@ -49,7 +49,7 @@ public class ChessCounter {
 
     /**
      * konstruktor
-     * beállítás, adat initálizálás
+     * beallitas, adat initalizalas
      */
     public ChessCounter() {
         chess = new int[15][15];
@@ -61,11 +61,11 @@ public class ChessCounter {
     }
 
     /**
-     * getter: pálya adat
+     * getter: palya adat
      *
-     * @param x x érték
-     * @param y y érték
-     * @return adott helyi érték
+     * @param x x ertek
+     * @param y y ertek
+     * @return adott helyi ertek
      */
     public int getValueAt(int x, int y) {
         return chess[x][y];
@@ -74,7 +74,7 @@ public class ChessCounter {
     /**
      * getter: playable
      *
-     * @return playable érték
+     * @return playable ertek
      */
     public boolean getPlayable() {
         return playable;
@@ -83,7 +83,7 @@ public class ChessCounter {
     /**
      * getter: turn
      *
-     * @return turn érték
+     * @return turn ertek
      */
     public Turn getTurn() {
         return turn;
@@ -92,7 +92,7 @@ public class ChessCounter {
     /**
      * getter: gameMode
      *
-     * @return gameMode érték
+     * @return gameMode ertek
      */
     public GameMode getGameMode() {
         return gameMode;
@@ -101,7 +101,7 @@ public class ChessCounter {
     /**
      * getter: stepStack
      *
-     * @return egész Stack(stepStack)
+     * @return egesz Stack(stepStack)
      */
     public Stack<Step> getStepStack() {
         Stack<Step> ss = new Stack<>();
@@ -111,11 +111,11 @@ public class ChessCounter {
     }
 
     /**
-     * setter: pálya adat
+     * setter: palya adat
      *
-     * @param x x érték
-     * @param y y érték
-     * @param v adott helyi érték
+     * @param x x ertek
+     * @param y y ertek
+     * @param v adott helyi ertek
      */
     public void setChess(int x, int y, int v) {
         chess[x][y] = v;
@@ -124,7 +124,7 @@ public class ChessCounter {
     /**
      * setter: playable
      *
-     * @param p playable érték
+     * @param p playable ertek
      */
     public void setPlayable(boolean p) {
         playable = p;
@@ -133,7 +133,7 @@ public class ChessCounter {
     /**
      * setter: turn
      *
-     * @param t turn érték
+     * @param t turn ertek
      */
     public void setTurn(Turn t) {
         turn = t;
@@ -142,18 +142,18 @@ public class ChessCounter {
     /**
      * setter: stepStack
      *
-     * @param x lépésnek x értek
-     * @param y lépésnek y értek
+     * @param x lepesnek x ertek
+     * @param y lepesnek y ertek
      */
     public void pushToStack(int x, int y) {
         stepStack.push(new Step(x, y));
     }
 
     /**
-     * visszalépés
-     * egyedül játék esetén két lépést visszatér, multi esetén pedig egyet
+     * visszalepes
+     * egyedul jatek eseten ket lepest visszater, multi eseten pedig egyet
      *
-     * @return sikerül-e visszalépni(ha üres a pálya, akkor false)
+     * @return sikerul-e visszalepni(ha ures a palya, akkor false)
      */
     public boolean cancel() {
         boolean changeTurn = !stepStack.empty();
@@ -171,10 +171,11 @@ public class ChessCounter {
     }
 
     /**
-     * inicializálás
-     * minden pálya érték nullává válik
+     * inicializalas
+     * minden palya ertek nullava valik
      */
     public void init() {
+        stepStack = new Stack<>();
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                 chess[i][j] = 0;
@@ -183,21 +184,21 @@ public class ChessCounter {
     }
 
     /**
-     * megmutat hogy most végzik-e a játék, ha igen, akkor hogyan
-     * a win függvény eredménytól függ
+     * megmutat hogy most vegzik-e a jatek, ha igen, akkor hogyan
+     * a win fuggveny eredmenytol fugg
      */
     public void showOFWin() {
         int winner = this.win();
-        String title = "Vége a játéknak";
+        String title = "game over";
         switch (winner) {
             case 1:
-                showMessageDialog(null, "Fekete nyert!", title, INFORMATION_MESSAGE);
+                showMessageDialog(null, "Black win!", title, INFORMATION_MESSAGE);
                 break;
             case 2:
-                showMessageDialog(null, "Fehér nyert!", title, INFORMATION_MESSAGE);
+                showMessageDialog(null, "White win!", title, INFORMATION_MESSAGE);
                 break;
             case 3:
-                showMessageDialog(null, "Döntetlen!", title, INFORMATION_MESSAGE);
+                showMessageDialog(null, "Draw!", title, INFORMATION_MESSAGE);
                 break;
             default:
                 break;
@@ -205,18 +206,18 @@ public class ChessCounter {
     }
 
     /**
-     * AI lépés, az AIChessCounter osztályban valósítani fog
+     * AI lepes, az AIChessCounter osztalyban valositani fog
      */
     public void step() {
     }
 
     /**
-     * számol az adott helyi követnek sorozatnak hosszát
+     * szamol az adott helyi konek sorozatnak hosszat
      *
-     * @param x    x érték
-     * @param y    y érték
-     * @param mode írány, = 0: sor, 1: oszlop, 2: jobb-ferde, 3: bal-felde
-     * @return elszámolt hosszát
+     * @param x    x ertek
+     * @param y    y ertek
+     * @param mode irany, = 0: sor, 1: oszlop, 2: jobb-ferde, 3: bal-felde
+     * @return elszamolt hosszat
      */
     protected int countLine(int x, int y, int mode) {
         if (mode < 0 || mode > 3) throw new IllegalStateException();
@@ -286,11 +287,11 @@ public class ChessCounter {
     }
 
     /**
-     * számol az adott helyi követnek sorozatoknak maximális hosszát
+     * szamol az adott helyi konek sorozatoknak maximalis hosszat
      *
-     * @param x x érték
-     * @param y y érték
-     * @return elszámolt hosszát
+     * @param x x ertek
+     * @param y y ertek
+     * @return elszamolt hosszat
      */
     protected int countAllLine(int x, int y) {
         int tmp1 = Math.max(countLine(x, y, 0), countLine(x, y, 1));
@@ -299,9 +300,9 @@ public class ChessCounter {
     }
 
     /**
-     * arra számol, hogy a játék vegzik-e, és ha igen, hogyan
+     * arra szamol, hogy a jatek vegzik-e, es ha igen, hogyan
      *
-     * @return 0: egyik sem nyer, 1: fekete megnyri, 2: fehér megnyeri, 3: döntetlen
+     * @return 0: egyik sem nyer, 1: fekete megnyri, 2: feher megnyeri, 3: dontetlen
      */
     protected int win() {
         if (!stepStack.empty()) {

@@ -7,15 +7,26 @@ import java.util.EmptyStackException;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * ChessCounterTest
+ * tesztelesi osztaly a ChessCounter osztalynak
+ * cc: tesztelesre hasznalt jatek palya
+ */
 public class ChessCounterTest {
 
     ChessCounter cc;
 
+    /**
+     * beallitas
+     */
     @Before
     public void setUp(){
         cc = new ChessCounter();
     }
 
+    /**
+     *countLine teszteles  kulon iranyban 1
+     */
     @Test
     public void testCountLine01() {
         cc.setChess(0,0,1);
@@ -26,6 +37,9 @@ public class ChessCounterTest {
         assertEquals(5, cc.countLine(0, 0, 0));
     }
 
+    /**
+     *countLine teszteles  kulon iranyban 2
+     */
     @Test
     public void testCountLine02() {
         cc.setChess(0,0,1);
@@ -36,6 +50,9 @@ public class ChessCounterTest {
         assertEquals(5, cc.countLine(0, 0, 1));
     }
 
+    /**
+     *countLine teszteles  kulon iranyban 3
+     */
     @Test
     public void testCountLine03() {
         cc.setChess(0,5,1);
@@ -46,6 +63,9 @@ public class ChessCounterTest {
         assertEquals(5, cc.countLine(0, 5, 2));
     }
 
+    /**
+     *countLine teszteles  kulon iranyban 4
+     */
     @Test
     public void testCountLine04() {
         cc.setChess(0,0,1);
@@ -56,6 +76,9 @@ public class ChessCounterTest {
         assertEquals(5, cc.countLine(0, 0, 3));
     }
 
+    /**
+     *countLine teszteles  kulon iranyban 5
+     */
     @Test
     public void testCountLine05() {
         cc.setChess(1,1,1);
@@ -65,6 +88,9 @@ public class ChessCounterTest {
         assertEquals(1, cc.countLine(1, 1, 0));
     }
 
+    /**
+     *countLine teszteles  kulon iranyban 6
+     */
     @Test
     public void testCountLine06() {
         cc.setChess(1, 1, 1);
@@ -74,6 +100,9 @@ public class ChessCounterTest {
         assertEquals(1, cc.countLine(1, 1, 1));
     }
 
+    /**
+     *countLine teszteles  kulon iranyban 7
+     */
     @Test
     public void testCountLine07() {
         cc.setChess(1,1,1);
@@ -83,6 +112,9 @@ public class ChessCounterTest {
         assertEquals(1, cc.countLine(1, 1, 2));
     }
 
+    /**
+     *countLine teszteles  kulon iranyban 8
+     */
     @Test
     public void testCountLine08() {
         cc.setChess(1,1,1);
@@ -92,6 +124,10 @@ public class ChessCounterTest {
         assertEquals(1, cc.countLine(1, 1, 3));
     }
 
+
+    /**
+     *countLine teszteles ures helyen
+     */
     @Test
     public void testCountLine09() {
         cc.setChess(1,1,0);
@@ -99,13 +135,16 @@ public class ChessCounterTest {
     }
 
     /**
-     * hiba tesztelés: hibás mode szám
+     * countLine hiba teszteles: hibas mode szam
      */
     @Test(expected = IllegalStateException.class)
     public void testCountLine10() {
         cc.countLine(1, 1, -1);
     }
 
+    /**
+     *countLineAll teszteles  kulon iranyban 1
+     */
     @Test
     public void testCountAll01(){
         cc.setChess(0,0,1);
@@ -116,6 +155,9 @@ public class ChessCounterTest {
         assertEquals(5, cc.countAllLine(0,0));
     }
 
+    /**
+     *countLineAll teszteles  kulon iranyban 2
+     */
     @Test
     public void testCountAll02() {
         cc.setChess(0, 0, 1);
@@ -126,6 +168,9 @@ public class ChessCounterTest {
         assertEquals(5, cc.countAllLine(0, 0));
     }
 
+    /**
+     *countLineAll teszteles  kulon iranyban 3
+     */
     @Test
     public void testCountAll03() {
         cc.setChess(0, 0, 1);
@@ -136,6 +181,9 @@ public class ChessCounterTest {
         assertEquals(5, cc.countAllLine(0, 0));
     }
 
+    /**
+     *countLineAll teszteles  kulon iranyban 4
+     */
     @Test
     public void testCountAll04() {
         cc.setChess(0, 4, 1);
@@ -146,6 +194,9 @@ public class ChessCounterTest {
         assertEquals(5, cc.countAllLine(0, 4));
     }
 
+    /**
+     *countLineAll teszteles: hossza tobb mint ot
+     */
     @Test
     public void testCountAll05() {
         cc.setChess(0, 0, 1);
@@ -158,6 +209,10 @@ public class ChessCounterTest {
         assertEquals(5, cc.countAllLine(0, 0));
     }
 
+
+    /**
+     *countLineAll teszteles ures helyen
+     */
     @Test
     public void testCountAll06() {
         cc.setChess(0, 0, 0);
@@ -165,7 +220,7 @@ public class ChessCounterTest {
     }
 
     /**
-     * visszelépés tesztelés egyedös modell 1
+     * visszelepes teszteles egyedus modell 1
      */
     @Test
     public void testCancel01(){
@@ -176,7 +231,7 @@ public class ChessCounterTest {
     }
 
     /**
-     * visszelépés tesztelés egyedös modell 2
+     * visszelepes teszteles egyedus modell 2
      */
     @Test
     public void testCancel02(){
@@ -190,7 +245,7 @@ public class ChessCounterTest {
     }
 
     /**
-     * visszelépés tesztelés több játékos modell 1
+     * visszelepes teszteles tobb jatekos modell 1
      */
     @Test
     public void testCancel03(){
@@ -204,7 +259,7 @@ public class ChessCounterTest {
     }
 
     /**
-     * visszelépés tesztelés több játékos modell 2
+     * visszelepes teszteles tobb jatekos modell 2
      */
     @Test
     public void testCancel04(){
@@ -223,7 +278,7 @@ public class ChessCounterTest {
     }
 
     /**
-     * üres Stack tesztelés
+     * üres Stack teszteles
      */
     @Test(expected = EmptyStackException.class)
     public void testCancel05(){
@@ -231,7 +286,7 @@ public class ChessCounterTest {
     }
 
     /**
-     * gyöztes tesztelés 1
+     * gyoztes teszteles 1
      */
     @Test
     public void testWin01(){
@@ -245,7 +300,7 @@ public class ChessCounterTest {
     }
 
     /**
-     * gyöztes tesztelés 2
+     * gyoztes teszteles 2
      */
     @Test
     public void testWin02(){
@@ -260,7 +315,7 @@ public class ChessCounterTest {
 
 
     /**
-     * gyöztes tesztelés 3
+     * gyoztes teszteles 3
      */
     @Test
     public void testWin03(){
@@ -269,8 +324,8 @@ public class ChessCounterTest {
 
 
     /**
-     * húzás tesztelés
-     * itt a pályán 1 és 2 érték helyett -1 töltök fel, rényeg, hogy keződik a játék, aközben senki nem nyeri meg, és tele van a pálya
+     * húzas teszteles
+     * itt a palyan 1 es 2 ertek helyett -1 toltok fel, renyeg, hogy kezodik a jatek, akozben senki nem nyeri meg, es tele van a palya
      */
     @Test
     public void testWin04(){

@@ -2,8 +2,8 @@ package com.gao.gomoku.counter;
 
 /**
  * PointCounter
- * egy adott pályán logikusan megkeres a leg hatékonyabb lépés
- * cc: a megadott pálya
+ * egy adott palyan logikusan megkeres a leg hatekonyabb lepes
+ * cc: a megadott palya
  */
 public class PointCounter {
 
@@ -11,7 +11,7 @@ public class PointCounter {
 
     /**
      * konstruktor
-     * pálya olvasás
+     * palya olvasas
      * @param cc
      */
     public PointCounter(AIChessCounter cc){
@@ -19,11 +19,11 @@ public class PointCounter {
     }
 
     /**
-     * hatás számolási logika, elszámol egy adott helynek a lépés hatása
-     * a logika két metódussal bontok le
-     * @param x x érték
-     * @param y y érték
-     * @return megszámolt lépés hatása(integer típusú ponttal jelöli meg)
+     * hatas szamolasi logika, elszamol egy adott helynek a lepes hatasa
+     * a logika ket metodussal bontok le
+     * @param x x ertek
+     * @param y y ertek
+     * @return megszamolt lepes hatasa(integer tipusú ponttal jeloli meg)
      */
     public int countPoint(int x, int y){
         int point;
@@ -32,10 +32,10 @@ public class PointCounter {
     }
 
     /**
-     * hatás számolási logika, elszámol egy adott helynek a lépésnek a támadási hatása
-     * @param x x érték
-     * @param y y érték
-     * @return megszámolt lépés hatása(integer típusú ponttal jelöli meg)
+     * hatas szamolasi logika, elszamol egy adott helynek a lepesnek a tamadasi hatasa
+     * @param x x ertek
+     * @param y y ertek
+     * @return megszamolt lepes hatasa(integer tipusú ponttal jeloli meg)
      */
     protected int countAttackPoint(int x, int y){
         if(cc.getValueAt(x,y) != 0) throw new IllegalStateException("place is not empty!");
@@ -53,10 +53,10 @@ public class PointCounter {
     }
 
     /**
-     * hatás számolási logika, elszámol egy adott helynek a lépésnek a védekezési hatása
-     * @param x x érték
-     * @param y y érték
-     * @return megszámolt lépés hatása(integer típusú ponttal jelöli meg)
+     * hatas szamolasi logika, elszamol egy adott helynek a lepesnek a vedekezesi hatasa
+     * @param x x ertek
+     * @param y y ertek
+     * @return megszamolt lepes hatasa(integer tipusú ponttal jeloli meg)
      */
     protected int countDefendPoint(int x, int y){
         if(cc.getValueAt(x,y) != 0) throw new IllegalStateException("place is not empty!");

@@ -6,9 +6,9 @@ import javax.swing.*;
 
 /**
  * GomokuBoard
- * JFrame leszármazott osztály, játék ablak
- * a csomagban tartozott más két osztály is ennek az osztálynak dolgozik
- * cc: a játék pálya, fő adatot tárol ebben
+ * JFrame leszarmazott osztaly, jatek ablak
+ * a csomagban tartozott mas ket osztaly is ennek az osztalynak dolgozik
+ * cc: a jatek palya, fo adatot tarol ebben
  */
 public class GomokuBoard extends JFrame {
 
@@ -16,8 +16,8 @@ public class GomokuBoard extends JFrame {
 
     /**
      * konstruktor
-     * beállítás, pályolvasás
-     * @param cc: megadott pálya, új játék esetén sima inicializálás, beolvasás esetén pedig egy régi játék pályát kap meg
+     * beallitas, palyolvasas
+     * @param cc: megadott palya, új jatek eseten sima inicializalas, beolvasas eseten pedig egy regi jatek palyat kap meg
      */
     public GomokuBoard(ChessCounter cc) {
         this.cc = cc;
@@ -25,8 +25,8 @@ public class GomokuBoard extends JFrame {
     }
 
     /**
-     * ablak inicializálás
-     * két metódusra bontok le
+     * ablak inicializalas
+     * ket metodusra bontok le
      */
     private void init(){
         basicSetting();
@@ -34,25 +34,25 @@ public class GomokuBoard extends JFrame {
     }
 
     /**
-     * ablak beállítás
+     * ablak beallitas
      */
     private void basicSetting(){
-        //ablak beállítások
-        //cím
+        //ablak beallitasok
+        //cim
         setTitle("Gomoku");
-        //méret
+        //meret
         setBounds(500, 100,750, 550);
-        //azonos méret legyen
+        //azonos meret legyen
         setResizable(false);
-        //bezárás
+        //bezaras
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //nem mutat meg
         setVisible(false);
     }
 
     /**
-     * UI tervezés, UIediter osztályval valósított
-     * az ablakba be fogja szúrni az elkészült grafikus játék pálya és a swing-es játék UI
+     * UI tervezes, UIediter osztalyval valositott
+     * az ablakba be fogja szúrni az elkeszult grafikus jatek palya es a swing-es jatek UI
      */
     private void uisetting(){
         UIeditor ui = new UIeditor(this, cc);

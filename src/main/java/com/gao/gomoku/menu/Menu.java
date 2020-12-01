@@ -10,13 +10,13 @@ import java.awt.*;
 
 /**
  * Menu
- * a JFrame leszármazott ablak, a játék fő menü, ilyentől keztődik
- * cc: majd használt játék pálya
- * b: majd használt játék ablak
- * singlePalyer: egyedös játék kezdésére használt JButton
- * multiPlayer: több játékos játék kezdésére használt JButton
- * load: játék kinyításra használt JButton
- * exit: kilépésre használt JButton
+ * a JFrame leszarmazott ablak, a jatek fo menu, ilyentol keztodik
+ * cc: majd hasznalt jatek palya
+ * b: majd hasznalt jatek ablak
+ * singlePalyer: egyedos jatek kezdesere hasznalt JButton
+ * multiPlayer: tobb jatekos jatek kezdesere hasznalt JButton
+ * load: jatek kinyitasra hasznalt JButton
+ * exit: kilepesre hasznalt JButton
  */
 public class Menu extends JFrame {
 
@@ -29,7 +29,7 @@ public class Menu extends JFrame {
 
     /**
      * konstruktor
-     * beállítás, UI tervezés
+     * beallitas, UI tervezes
      */
     public Menu(){
         setBounds(600, 150,400, 450);
@@ -41,20 +41,20 @@ public class Menu extends JFrame {
     }
 
     /**
-     * UI tervezés
+     * UI tervezes
      */
     private void uisetting(){
 
-        singlePlayer = new JButton("Egy játékos");
+        singlePlayer = new JButton("single player");
         singlePlayer.setPreferredSize(new Dimension(120,30));
 
-        multiPlayer = new JButton("Két játékos");
+        multiPlayer = new JButton("multiplayer");
         multiPlayer.setPreferredSize(new Dimension(120,30));
 
-        load = new JButton("kinyitás");
+        load = new JButton("load");
         load.setPreferredSize(new Dimension(120,30));
 
-        exit = new JButton("kilépés");
+        exit = new JButton("exit");
         exit.setPreferredSize(new Dimension(120,30));
 
         JLabel title = new JLabel("G o m o k u");
@@ -100,7 +100,7 @@ public class Menu extends JFrame {
     }
 
     /**
-     * minden nyomógombnak az eseménynek beállítása
+     * minden nyomogombnak az esemenynek beallitasa
      */
     private void buttonListener(){
         singlePlayer.addActionListener(e -> {
@@ -117,6 +117,9 @@ public class Menu extends JFrame {
 
         load.addActionListener(e -> new FileFrame(FileFrame.IO.LOAD, cc));
 
-        exit.addActionListener(e -> dispose());
+        exit.addActionListener(e -> {
+            dispose();
+            b.dispose();
+        });
     }
 }

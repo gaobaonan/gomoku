@@ -2,13 +2,13 @@ package com.gao.gomoku.counter;
 
 /**
  * AIChessCounter
- * Ai visekédi szabályokat tárol
+ * Ai visekedi szabalyokat tarol
  */
 public class AIChessCounter extends ChessCounter {
 
     /**
      * konstruktor
-     * beállítás
+     * beallitas
      */
     public AIChessCounter() {
         super();
@@ -16,9 +16,9 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * AI lépés
-     * felhívja a mustPressed metódust, ha false érték kap vissza, akkor felhívja a pointCounter metódust
-     * a két metódus különben fog részletesen magyarázni
+     * AI lepes
+     * felhivja a mustPressed metodust, ha false ertek kap vissza, akkor felhivja a pointCounter metodust
+     * a ket metodus kulonben fog reszletesen magyarazni
      */
     @Override
     public void step() {
@@ -27,12 +27,12 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * megszámít az adott követnek két határa lyokas-e
+     * megszamit az adott konek ket hatara lyokas-e
      *
-     * @param x    x érték
-     * @param y    y érték
-     * @param mode írány, = 0: sor, 1: oszlop, 2: jobb-ferde, 3: bal-felde
-     * @return hány darab nem lyokas határa van
+     * @param x    x ertek
+     * @param y    y ertek
+     * @param mode irany, = 0: sor, 1: oszlop, 2: jobb-ferde, 3: bal-felde
+     * @return hany darab nem lyokas hatara van
      */
     protected int countLimit(int x, int y, int mode) {
         if (chess[x][y] == 0 || mode < 0 || mode > 3) {
@@ -107,11 +107,11 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * számolási logikus: 5 követ
+     * szamolasi logikus: 5 ko
      *
-     * @param x x érték
-     * @param y y érték
-     * @return az adott helyen hány ilyen sorozatot szerepel
+     * @param x x ertek
+     * @param y y ertek
+     * @return az adott helyen hany ilyen sorozatot szerepel
      */
     private int five(int x, int y) {
         int count = 0;
@@ -123,11 +123,11 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * számolási logikus: 4 követ, 0 nem lyokas határ
+     * szamolasi logikus: 4 ko, 0 nem lyokas hatar
      *
-     * @param x x érték
-     * @param y y érték
-     * @return az adott helyen hány ilyen sorozatot szerepel
+     * @param x x ertek
+     * @param y y ertek
+     * @return az adott helyen hany ilyen sorozatot szerepel
      */
     private int livedFour(int x, int y) {
         int count = 0;
@@ -139,11 +139,11 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * számolási logikus: 4 követ, 1 nem lyokas határ
+     * szamolasi logikus: 4 ko, 1 nem lyokas hatar
      *
-     * @param x x érték
-     * @param y y érték
-     * @return az adott helyen hány ilyen sorozatot szerepel
+     * @param x x ertek
+     * @param y y ertek
+     * @return az adott helyen hany ilyen sorozatot szerepel
      */
     protected int blockedFour(int x, int y) {
         int count = 0;
@@ -155,11 +155,11 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * számolási logikus: 3 követ, 0 nem lyokas határ
+     * szamolasi logikus: 3 ko, 0 nem lyokas hatar
      *
-     * @param x x érték
-     * @param y y érték
-     * @return az adott helyen hány ilyen sorozatot szerepel
+     * @param x x ertek
+     * @param y y ertek
+     * @return az adott helyen hany ilyen sorozatot szerepel
      */
     protected int livedThree(int x, int y) {
         int count = 0;
@@ -171,11 +171,11 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * számolási logikus: 3 követ, 1 nem lyokas határ
+     * szamolasi logikus: 3 ko, 1 nem lyokas hatar
      *
-     * @param x x érték
-     * @param y y érték
-     * @return az adott helyen hány ilyen sorozatot szerepel
+     * @param x x ertek
+     * @param y y ertek
+     * @return az adott helyen hany ilyen sorozatot szerepel
      */
     protected int blockedThree(int x, int y) {
         int count = 0;
@@ -187,11 +187,11 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * számolási logikus: 2 követ, 0 nem lyokas határ
+     * szamolasi logikus: 2 ko, 0 nem lyokas hatar
      *
-     * @param x x érték
-     * @param y y érték
-     * @return az adott helyen hány ilyen sorozatot szerepel
+     * @param x x ertek
+     * @param y y ertek
+     * @return az adott helyen hany ilyen sorozatot szerepel
      */
     protected int livedTwo(int x, int y) {
         int count = 0;
@@ -204,11 +204,11 @@ public class AIChessCounter extends ChessCounter {
 
 
     /**
-     * számolási logikus: 2 követ, 1 nem lyokas határ
+     * szamolasi logikus: 2 ko, 1 nem lyokas hatar
      *
-     * @param x x érték
-     * @param y y érték
-     * @return az adott helyen hány ilyen sorozatot szerepel
+     * @param x x ertek
+     * @param y y ertek
+     * @return az adott helyen hany ilyen sorozatot szerepel
      */
     protected int blockedTwo(int x, int y) {
         int count = 0;
@@ -220,10 +220,10 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * ellenőrizik a pláyán van-e olyan pont, ahol muszáj lerakni
+     * ellenorizik a playan van-e olyan pont, ahol muszaj lerakni
      *
-     * @param color: 1 fekete, védekezési szempont; 2 fehér, támadási szempont
-     * @return létezik-e ilyen pont
+     * @param color: 1 fekete, vedekezesi szempont; 2 feher, tamadasi szempont
+     * @return letezik-e ilyen pont
      */
     protected boolean mustPressedLogic1(int color) {
         for (int i = 0; i < 15; i++) {
@@ -243,11 +243,11 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * ellenőrizik a pláyán van-e olyan pont, ahol muszáj lerakni
-     * de kevésbé fontos mint az "első" logikus
+     * ellenorizik a playan van-e olyan pont, ahol muszaj lerakni
+     * de kevesbe fontos mint az "elso" logikus
      *
-     * @param color: 1 fekete, védekezési szempont; 2 fehér, támadási szempont
-     * @return létezik-e ilyen pont
+     * @param color: 1 fekete, vedekezesi szempont; 2 feher, tamadasi szempont
+     * @return letezik-e ilyen pont
      */
     protected boolean mustPressedLogic2(int color) {
         for (int i = 0; i < 15; i++) {
@@ -269,11 +269,11 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * ellenőrizik a pláyán van-e olyan pont, ahol muszáj lerakni
-     * de kevésbé fontos mint az "első" és a "második" logikus
+     * ellenorizik a playan van-e olyan pont, ahol muszaj lerakni
+     * de kevesbe fontos mint az "elso" es a "masodik" logikus
      *
-     * @param color: 1 fekete, védekezési szempont; 2 fehér, támadási szempont
-     * @return létezik-e ilyen pont
+     * @param color: 1 fekete, vedekezesi szempont; 2 feher, tamadasi szempont
+     * @return letezik-e ilyen pont
      */
     protected boolean mustPressedLogic3(int color) {
         for (int i = 0; i < 15; i++) {
@@ -293,9 +293,9 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * összefoglal minden "fontos" lépésre szükséges logikát, ha van ilyen lépés, akkor odarak a követet
+     * osszefoglal minden "fontos" lepesre szukseges logikat, ha van ilyen lepes, akkor odarak a kovet
      *
-     * @return a pályán létezik-e ilyen "fontos" lépés
+     * @return a palyan letezik-e ilyen "fontos" lepes
      */
     private boolean mustPressed() {
         return mustPressedLogic1(2) ||
@@ -307,10 +307,10 @@ public class AIChessCounter extends ChessCounter {
     }
 
     /**
-     * olyan számoló, hogy elszámol a pályán hol van a leghatékonyabb lépés, és odarak a követet
-     * ezt csak akkor hívja fel a step metódus, ha mustPressed metódus false értéket ad vissza
-     * azaz ezzel számított lépés kevésbé fontos
-     * a PointCounter osztály segítségével valósítható
+     * olyan szamolo, hogy elszamol a palyan hol van a leghatekonyabb lepes, es odarak a kovet
+     * ezt csak akkor hivja fel a step metodus, ha mustPressed metodus false erteket ad vissza
+     * azaz ezzel szamitott lepes kevesbe fontos
+     * a PointCounter osztaly segitsegevel valosithato
      */
     private void pointCounter() {
         int x = -1;

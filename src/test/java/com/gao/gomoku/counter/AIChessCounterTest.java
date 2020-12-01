@@ -7,18 +7,24 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * AIChessCounterTest
- * tesztelési osztály a AIChessCounter osztálynak
- * cc: tesztelésre használt játék pálya
+ * tesztelesi osztaly a AIChessCounter osztalynak
+ * cc: tesztelesre hasznalt jatek palya
  */
 public class AIChessCounterTest {
 
     AIChessCounter cc;
 
+    /**
+     * beallitas
+     */
     @Before
     public void setUp(){
         cc = new AIChessCounter();
     }
 
+    /**
+     * countLimit tesztels kulon iranyban 1
+     */
     @Test
     public void countLimitTest01(){
         cc.setChess(1,1,1);
@@ -29,6 +35,9 @@ public class AIChessCounterTest {
         assertEquals(1, cc.countLimit(1,1,0));
     }
 
+    /**
+     * countLimit tesztels kulon iranyban 2
+     */
     @Test
     public void countLimitTest02(){
         cc.setChess(1,1,1);
@@ -39,6 +48,9 @@ public class AIChessCounterTest {
         assertEquals(1, cc.countLimit(1,1,1));
     }
 
+    /**
+     * countLimit tesztels kulon iranyban 3
+     */
     @Test
     public void countLimitTest03(){
         cc.setChess(5,1,1);
@@ -49,6 +61,9 @@ public class AIChessCounterTest {
         assertEquals(1, cc.countLimit(5,1,2));
     }
 
+    /**
+     * countLimit tesztels kulon iranyban 4
+     */
     @Test
     public void countLimitTest04(){
         cc.setChess(1,1,1);
@@ -59,6 +74,9 @@ public class AIChessCounterTest {
         assertEquals(1, cc.countLimit(1,1,3));
     }
 
+    /**
+     * countLimit tesztels kulon iranyban 5
+     */
     @Test
     public void countLimitTest05(){
         cc.setChess(1,1,1);
@@ -68,6 +86,9 @@ public class AIChessCounterTest {
         assertEquals(0, cc.countLimit(1,1,0));
     }
 
+    /**
+     * countLimit tesztels kulon iranyban 6
+     */
     @Test
     public void countLimitTest06(){
         cc.setChess(1,1,1);
@@ -77,6 +98,9 @@ public class AIChessCounterTest {
         assertEquals(0, cc.countLimit(1,1,1));
     }
 
+    /**
+     * countLimit tesztels kulon iranyban 7
+     */
     @Test
     public void countLimitTest07(){
         cc.setChess(1,1,1);
@@ -86,6 +110,9 @@ public class AIChessCounterTest {
         assertEquals(0, cc.countLimit(1,1,2));
     }
 
+    /**
+     * countLimit tesztels kulon iranyban 8
+     */
     @Test
     public void countLimitTest08(){
         cc.setChess(1,1,1);
@@ -95,6 +122,9 @@ public class AIChessCounterTest {
         assertEquals(0, cc.countLimit(1,1,3));
     }
 
+    /**
+     * countLimit tesztels: hatar nelkul
+     */
     @Test
     public void countLimitTest09(){
         cc.setChess(1,1,1);
@@ -104,6 +134,9 @@ public class AIChessCounterTest {
         assertEquals(0, cc.countLimit(1,1,0));
     }
 
+    /**
+     * countLimit tesztels: hatar van
+     */
     @Test
     public void countLimitTest10(){
         cc.setChess(0,1,1);
@@ -114,7 +147,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * hiba testelés 1: üres az adott hely
+     * countLimit hiba testeles 1: ures az adott hely
      */
     @Test(expected = IllegalStateException.class)
     public void countLimitTest11(){
@@ -123,7 +156,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * hiba testelés 2: hibás mode szám
+     * countLimit hiba testeles 2: hibas mode szam
      */
     @Test(expected = IllegalStateException.class)
     public void countLimitTest12(){
@@ -132,7 +165,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * öt darab követ támadás eset 1
+     * ot darab ko tamadas eset 1
      */
     @Test
     public void mustPressedLogic1Test01(){
@@ -145,7 +178,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * öt darab követ támadás eset 2
+     * ot darab ko tamadas eset 2
      */
     @Test
     public void mustPressedLogic1Test02(){
@@ -158,7 +191,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * öt darab követ védekezés eset 1
+     * ot darab ko vedekezes eset 1
      */
     @Test
     public void mustPressedLogic1Test03(){
@@ -172,7 +205,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * öt darab követ védekezés eset 2
+     * ot darab ko vedekezes eset 2
      */
     @Test
     public void mustPressedLogic1Test04(){
@@ -185,7 +218,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * negy darab követ támadás eset 1
+     * negy darab ko tamadas eset 1
      */
     @Test
     public void mustPressedLogic2Test01(){
@@ -197,7 +230,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * negy darab követ támadás eset 2
+     * negy darab ko tamadas eset 2
      */
     @Test
     public void mustPressedLogic2Test02(){
@@ -209,7 +242,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * negy darab követ írány tesztelés 1
+     * negy darab ko irany teszteles 1
      */
     @Test
     public void mustPressedLogic2Test03(){
@@ -221,7 +254,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * negy darab követ írány tesztelés 2
+     * negy darab ko irany teszteles 2
      */
     @Test
     public void mustPressedLogic2Test04(){
@@ -234,7 +267,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * negy-három darab követ támadás eset 1
+     * negy-harom darab ko tamadas eset 1
      */
     @Test
     public void mustPressedLogic2Test05(){
@@ -249,7 +282,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * negy-három darab követ támadás eset 2
+     * negy-harom darab ko tamadas eset 2
      */
     @Test
     public void mustPressedLogic2Test06(){
@@ -264,7 +297,7 @@ public class AIChessCounterTest {
 
 
     /**
-     * dupla négy darab követ támadás eset 1
+     * dupla negy darab ko tamadas eset 1
      */
     @Test
     public void mustPressedLogic2Test07(){
@@ -280,7 +313,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * dupla négy darab követ támadás eset 2
+     * dupla negy darab ko tamadas eset 2
      */
     @Test
     public void mustPressedLogic2Test08(){
@@ -296,7 +329,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * négy darab követ védekezés eset 1
+     * negy darab ko vedekezes eset 1
      */
     @Test
     public void mustPressedLogic2Test09(){
@@ -308,7 +341,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * négy darab követ védekezés eset 2
+     * negy darab ko vedekezes eset 2
      */
     @Test
     public void mustPressedLogic2Test10(){
@@ -320,7 +353,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * negy-három darab követ védekezés eset 1
+     * negy-harom darab ko vedekezes eset 1
      */
     @Test
     public void mustPressedLogic2Test11(){
@@ -335,7 +368,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * negy-három darab követ védekezés eset 2
+     * negy-harom darab ko vedekezes eset 2
      */
     @Test
     public void mustPressedLogic2Test12(){
@@ -349,7 +382,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * dupla négy darab követ védekezés eset 1
+     * dupla negy darab ko vedekezes eset 1
      */
     @Test
     public void mustPressedLogic2Test13(){
@@ -365,7 +398,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * dupla négy darab követ védekezés eset 2
+     * dupla negy darab ko vedekezes eset 2
      */
     @Test
     public void mustPressedLogic2Test14(){
@@ -381,7 +414,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * dupla három darab követ támadás eset 1
+     * dupla harom darab ko tamadas eset 1
      */
     @Test
     public void mustPressedLogic3Test01(){
@@ -394,7 +427,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * dupla három darab követ támadás eset 2
+     * dupla harom darab ko tamadas eset 2
      */
     @Test
     public void mustPressedLogic3Test02(){
@@ -407,7 +440,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * dupla három darab követ védekezés eset 1
+     * dupla harom darab ko vedekezes eset 1
      */
     @Test
     public void mustPressedLogic3Test03(){
@@ -420,7 +453,7 @@ public class AIChessCounterTest {
     }
 
     /**
-     * dupla három darab követ védezezés eset 2
+     * dupla harom darab ko vedezezes eset 2
      */
     @Test
     public void mustPressedLogic3Test04(){

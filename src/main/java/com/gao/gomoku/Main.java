@@ -4,13 +4,13 @@ import com.gao.gomoku.menu.Menu;
 
 /**
  * Main
- * main függvényt tartalmaz
+ * main fuggvényt tartalmaz
  */
 public class Main {
 
     /**
-     * main függvény
-     * @param args: parancssori paraméter
+     * main fuggvény
+     * @param args: parancssori parameter
      */
     public static void main(String[] args) {
         new Menu();

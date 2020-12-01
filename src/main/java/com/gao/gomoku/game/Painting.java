@@ -6,16 +6,16 @@ import java.awt.*;
 
 /**
  * Painting
- * segítőosztály, statikus rajzolási metódust tartalmaz
- * szépen rajzolhat egy gomoku játék pályát
- * a kezdési ponttól keztödik pályát rajzolni
- * X_P: kézdési pontnak az x értéke
- * Y_P: kézdési pontnak az y értéke
- * C_R: lerajzolt követnek a sugára
- * B_S: pályán tartozott kockának a hosszát
- * a pálya kivül még rajzolni fog egy külső ablakot, hogy szép legyen az egész pálya
- * W_S: ablaknak a vastagsága
- * SP: ablak és pálya között helynek a szélessége
+ * segitoosztaly, statikus rajzolasi metodust tartalmaz
+ * szepen rajzolhat egy gomoku jatek palyat
+ * a kezdesi ponttol keztodik palyat rajzolni
+ * X_P: kezdesi pontnak az x erteke
+ * Y_P: kezdesi pontnak az y erteke
+ * C_R: lerajzolt konek a sugara
+ * B_S: palyan tartozott kockanak a hosszat
+ * a palya kivul meg rajzolni fog egy kulso ablakot, hogy szep legyen az egesz palya
+ * W_S: ablaknak a vastagsaga
+ * SP: ablak es palya kozott helynek a szelessege
  */
 public class Painting {
 
@@ -28,9 +28,9 @@ public class Painting {
     private static final int SP = 15;
 
     /**
-     * összes követnek a rajzolása, egy megkapott dinamikus játék pálya alapján rajzol
-     * @param g: Graphics típusú adott rajzpálya
-     * @param cc: adott játék pálya
+     * osszes konek a rajzolasa, egy megkapott dinamikus jatek palya alapjan rajzol
+     * @param g: Graphics tipusú adott rajzpalya
+     * @param cc: adott jatek palya
      */
     public static void chessPainting(Graphics g, ChessCounter cc){
 
@@ -56,8 +56,8 @@ public class Painting {
     }
 
     /**
-     * a pályának és az ablaknak a rajzolása
-     * @param g: Graphics típusú adott rajzpálya
+     * a palyanak es az ablaknak a rajzolasa
+     * @param g: Graphics tipusú adott rajzpalya
      */
     public static void chessboardPainting(Graphics g){
 
