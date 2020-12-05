@@ -78,7 +78,7 @@ public class PointCounterTest {
      * vedekezesi szamolas teszteles 1
      */
     @Test
-    public void testCountDefenfPoint01(){
+    public void testCountDefendPoint01(){
         cc.setChess(1,0,1);
         cc.setChess(1,1,1);
         cc.setChess(1,2,1);
@@ -90,7 +90,7 @@ public class PointCounterTest {
      * vedekezesi szamolas teszteles 2
      */
     @Test
-    public void testCountDefenfPoint02(){
+    public void testCountDefendPoint02(){
         cc.setChess(1,1,1);
         cc.setChess(1,2,1);
         cc.setChess(2,3,1);
@@ -101,7 +101,7 @@ public class PointCounterTest {
      * vedekezesi szamolas teszteles 3
      */
     @Test
-    public void testCountDefenfPoint03(){
+    public void testCountDefendPoint03(){
         cc.setChess(1,0,1);
         cc.setChess(1,1,1);
         cc.setChess(1,2,1);
@@ -115,7 +115,7 @@ public class PointCounterTest {
      * vedekezesi szamolas teszteles 4
      */
     @Test
-    public void testCountDefenfPoint04(){
+    public void testCountDefendPoint04(){
         cc.setChess(1,0,1);
         cc.setChess(1,1,1);
         cc.setChess(1,2,1);
