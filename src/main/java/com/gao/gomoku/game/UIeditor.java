@@ -4,17 +4,16 @@ import com.gao.gomoku.counter.ChessCounter;
 import com.gao.gomoku.file.FileFrame;
 import com.gao.gomoku.counter.ChessCounter.GameMode;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EmptyStackException;
 import java.util.Optional;
 
+import static java.util.Optional.*;
 import static javax.imageio.ImageIO.read;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -262,17 +261,16 @@ public class UIeditor {
     }
 
     private Optional<ImageIcon> readIcon(String fileName) {
+        return ofNullable(getClass().getResourceAsStream("/" + fileName))
+                .flatMap(this::createIcon);
+    }
+
+    private Optional<ImageIcon> createIcon(InputStream is) {
         try {
-            InputStream is = getClass().getResourceAsStream("/" + fileName);
-            if(is == null){
-                throw new IOException();
-            }
-            BufferedImage bi = read(is);
-            return Optional.of(new ImageIcon(bi));
+            return of(new ImageIcon(read(is)));
         } catch (IOException e) {
             e.printStackTrace();
-            showMessageDialog(null, "Picture missed!", "", JOptionPane.WARNING_MESSAGE);
         }
-        return Optional.empty();
+        return empty();
     }
 }
