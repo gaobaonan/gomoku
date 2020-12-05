@@ -1,20 +1,15 @@
 package com.gao.gomoku.game;
 
 import com.gao.gomoku.counter.ChessCounter;
-import com.gao.gomoku.file.FileFrame;
 import com.gao.gomoku.counter.ChessCounter.GameMode;
+import com.gao.gomoku.file.FileFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.EmptyStackException;
-import java.util.Optional;
 
-import static java.util.Optional.*;
-import static javax.imageio.ImageIO.read;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -176,28 +171,8 @@ public class UIeditor {
         exit.setPreferredSize(new Dimension(110, 30));
 
         //kepek
-        JPanel blackPicture = new JPanel() {
-
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);    //To change body of overridden methods use File | Settings | File Templates.
-                readIcon("heiqi.png").ifPresent(
-                        (icon) -> g.drawImage(icon.getImage(), 0, 0, 120, 120, null)
-                );
-            }
-        };
-        blackPicture.setPreferredSize(new Dimension(120, 120));
-        JPanel whitePicture = new JPanel() {
-
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);    //To change body of overridden methods use File | Settings | File Templates.
-                readIcon("baiqi.png").ifPresent(
-                        (icon) -> g.drawImage(icon.getImage(), 0, 0, 120, 120, null)
-                );
-            }
-        };
-        whitePicture.setPreferredSize(new Dimension(120, 120));
+        JPanel blackPicture = new PicturePanel("heiqi.png");
+        JPanel whitePicture = new PicturePanel("baiqi.png");
 
         //sovegablakok
         Font f = new Font("labelFont", Font.PLAIN, 20);
@@ -260,17 +235,4 @@ public class UIeditor {
 
     }
 
-    private Optional<ImageIcon> readIcon(String fileName) {
-        return ofNullable(getClass().getResourceAsStream("/" + fileName))
-                .flatMap(this::createIcon);
-    }
-
-    private Optional<ImageIcon> createIcon(InputStream is) {
-        try {
-            return of(new ImageIcon(read(is)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return empty();
-    }
 }
