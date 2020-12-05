@@ -4,12 +4,18 @@ import com.gao.gomoku.counter.ChessCounter;
 import com.gao.gomoku.file.FileFrame;
 import com.gao.gomoku.counter.ChessCounter.GameMode;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.EmptyStackException;
+import java.util.Optional;
 
+import static javax.imageio.ImageIO.read;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -18,10 +24,10 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * segitoosztaly, letrehoz a grafikus jatek palyat es a swing-es jatek UI-t
  * cc: adott jatek palya
  * b: tartalmazott jatek ablak
- * boardPanel: JPanel tipusú grafikus jatek palya
- * mainPanel: JPanel tipusú UI fo tere
+ * boardPanel: JPanel tipusu grafikus jatek palya
+ * mainPanel: JPanel tipusu UI fo tere
  * cancel: visszateresre hasznalt JButton
- * restart: újrakezdesre hasznalt JButton
+ * restart: ujrakezdesre hasznalt JButton
  * save: jatekot elmentesre hasznalt JButton
  * exit: kilepesre hasznalt JButton
  */
@@ -56,7 +62,7 @@ public class UIeditor {
     /**
      * visszaad az elkeszult grafikus jatek palya
      *
-     * @return JPanel tipusú elkeszult grafikus jatek palya
+     * @return JPanel tipusu elkeszult grafikus jatek palya
      */
     public JPanel createBoardPanel() {
         return boardPanel;
@@ -65,7 +71,7 @@ public class UIeditor {
     /**
      * visszaad az elkeszult UI
      *
-     * @return JPanel tipusú elkeszult UI
+     * @return JPanel tipusu elkeszult UI
      */
     public JPanel createUIPanel() {
         return mainPanel;
@@ -172,22 +178,24 @@ public class UIeditor {
 
         //kepek
         JPanel blackPicture = new JPanel() {
-            final ImageIcon icon = new ImageIcon("resources/heiqi.png");
 
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);    //To change body of overridden methods use File | Settings | File Templates.
-                g.drawImage(icon.getImage(), 0, 0, 120, 120, null);
+                readIcon("heiqi.png").ifPresent(
+                        (icon) -> g.drawImage(icon.getImage(), 0, 0, 120, 120, null)
+                );
             }
         };
         blackPicture.setPreferredSize(new Dimension(120, 120));
         JPanel whitePicture = new JPanel() {
-            final ImageIcon icon = new ImageIcon("resources/baiqi.png");
 
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);    //To change body of overridden methods use File | Settings | File Templates.
-                g.drawImage(icon.getImage(), 0, 0, 120, 120, null);
+                readIcon("baiqi.png").ifPresent(
+                        (icon) -> g.drawImage(icon.getImage(), 0, 0, 120, 120, null)
+                );
             }
         };
         whitePicture.setPreferredSize(new Dimension(120, 120));
@@ -251,5 +259,20 @@ public class UIeditor {
         mainPanel.add(uipanel);
 
 
+    }
+
+    private Optional<ImageIcon> readIcon(String fileName) {
+        try {
+            InputStream is = getClass().getResourceAsStream("/" + fileName);
+            if(is == null){
+                throw new IOException();
+            }
+            BufferedImage bi = read(is);
+            return Optional.of(new ImageIcon(bi));
+        } catch (IOException e) {
+            e.printStackTrace();
+            showMessageDialog(null, "Picture missed!", "", JOptionPane.WARNING_MESSAGE);
+        }
+        return Optional.empty();
     }
 }
