@@ -6,12 +6,14 @@ import com.gao.gomoku.counter.ChessCounter.Step;
 import com.gao.gomoku.game.GomokuBoard;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Stack;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
@@ -50,15 +52,24 @@ public class FileFrame extends JFrame {
         buttonListener(io, cc);
     }
 
+    private void loadGame(ChessCounter cc) {
+        openFileChooser().ifPresent(filePath -> {
+            try {
+                loadSetting(cc, filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     /**
      * beolvasasi metodus, io = LOAD eseten dolgozik
      * @param cc: rajta dolgoztt jatek palya
      * @param fileName: beolvasott fajlnak a neve
      * @throws IOException kivetel
      */
-    protected void loadSetting(ChessCounter cc, String fileName) throws IOException, NullPointerException {
-        String name = "/save/" + fileName + ".gmk";
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(name)))){
+    protected void loadSetting(ChessCounter cc, String fileName) throws IOException {
+        try(BufferedReader br = new BufferedReader(new FileReader(fileName))){
             String[] firstLine =  br.readLine().split(" ");
 
             if(firstLine[0].equals("SINGLE")) cc = new AIChessCounter();
@@ -143,14 +154,23 @@ public class FileFrame extends JFrame {
             final int serialNumber = i;
             list.get(i).addActionListener(e -> {
                 try {
-                    if(io == IO.LOAD) loadSetting(cc, list.get(serialNumber).getName());
+                    if(io == IO.LOAD) loadGame(cc);
                     else saveSetting(cc, list.get(serialNumber).getName());
-                } catch (NullPointerException | IOException | URISyntaxException exception) {
+                } catch ( IOException | URISyntaxException exception) {
                     showMessageDialog(null, "File not found!", "warning", ERROR_MESSAGE);
                 }
                 dispose();
             });
         }
+    }
+
+    private Optional<String> openFileChooser(){
+        JFileChooser chooser = new JFileChooser();
+        int returnVal = chooser.showOpenDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+                    return Optional.of(chooser.getSelectedFile().getAbsolutePath());
+        }
+        return Optional.empty();
     }
 }
 
