@@ -58,6 +58,7 @@ public class FileFrame extends JFrame {
                 loadSetting(cc, filePath);
             } catch (IOException e) {
                 e.printStackTrace();
+                showMessageDialog(null, "File not found!", "warning", ERROR_MESSAGE);
             }
         });
     }
@@ -68,7 +69,7 @@ public class FileFrame extends JFrame {
      * @param fileName: beolvasott fajlnak a neve
      * @throws IOException kivetel
      */
-    protected void loadSetting(ChessCounter cc, String fileName) throws IOException {
+    private void loadSetting(ChessCounter cc, String fileName) throws IOException {
         try(BufferedReader br = new BufferedReader(new FileReader(fileName))){
             String[] firstLine =  br.readLine().split(" ");
 
@@ -96,19 +97,25 @@ public class FileFrame extends JFrame {
         }
     }
 
+    private void saveGame(ChessCounter cc) {
+        openFileChooser().ifPresent(filePath-> {
+            try {
+                saveSetting(cc, filePath + ".gmk");
+            } catch (IOException e) {
+                e.printStackTrace();
+                showMessageDialog(null, "File not found!", "warning", ERROR_MESSAGE);
+            }
+        });
+    }
+
     /**
      * kiirasi metodus, io = SAVE eseten dolgozik
      * @param cc: rajta dolgoztt jatek palya
      * @param fileName: kiirt fajlnak a neve
      * @throws IOException kivetel
      */
-    private void saveSetting(ChessCounter cc, String fileName) throws IOException, URISyntaxException {
-
-
-        String name = "/save/" + fileName + ".gmk";
-        URL url = getClass().getResource(name);
-        File f = new File(url.toURI().getPath());
-        try (FileWriter fw = new FileWriter(f.getAbsoluteFile())){
+    private void saveSetting(ChessCounter cc, String fileName) throws IOException {
+        try (FileWriter fw = new FileWriter(fileName)){
             fw.write(cc.getGameMode().toString() + " ");
             fw.write(cc.getTurn().toString() + " ");
             if(cc.getPlayable()) fw.write("playable\r\n");
@@ -153,12 +160,8 @@ public class FileFrame extends JFrame {
         for (int i = 0; i < 5; i++) {
             final int serialNumber = i;
             list.get(i).addActionListener(e -> {
-                try {
-                    if(io == IO.LOAD) loadGame(cc);
-                    else saveSetting(cc, list.get(serialNumber).getName());
-                } catch ( IOException | URISyntaxException exception) {
-                    showMessageDialog(null, "File not found!", "warning", ERROR_MESSAGE);
-                }
+                if(io == IO.LOAD) loadGame(cc);
+                else saveGame(cc);
                 dispose();
             });
         }
@@ -166,6 +169,8 @@ public class FileFrame extends JFrame {
 
     private Optional<String> openFileChooser(){
         JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("gomoku file extention","gmk");
+        chooser.setFileFilter(filter);
         int returnVal = chooser.showOpenDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
                     return Optional.of(chooser.getSelectedFile().getAbsolutePath());
