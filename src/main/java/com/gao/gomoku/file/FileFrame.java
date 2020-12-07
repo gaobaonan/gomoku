@@ -2,10 +2,8 @@ package com.gao.gomoku.file;
 
 import com.gao.gomoku.counter.AIChessCounter;
 import com.gao.gomoku.counter.ChessCounter;
-import com.gao.gomoku.game.GomokuBoard;
 import com.gao.gomoku.counter.ChessCounter.Step;
-import com.gao.gomoku.menu.Menu;
-
+import com.gao.gomoku.game.GomokuBoard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +25,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * exit: kilepesre hasznalt JButton
  * IO tipus: parameterkent kapott oszdaly mukodesi modell, az osztaly egyszer csak egy modellben fog dolgozni: kiir vagy beolvas
  */
-public class FileFrame extends Menu {
+public class FileFrame extends JFrame {
 
     public enum IO{SAVE, LOAD}
 
@@ -41,9 +39,9 @@ public class FileFrame extends Menu {
      * @param cc: rajta dolgoztt jatek palya
      */
     public FileFrame(IO io, ChessCounter cc){
-        setBounds(700,200,200,330);
+        setBounds(700,200,200,280);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        GridLayout layout = new GridLayout(8,1);
+        GridLayout layout = new GridLayout(7,1);
         layout.setVgap(5);
         setLayout(layout);
         setVisible(true);
@@ -94,6 +92,7 @@ public class FileFrame extends Menu {
      * @throws IOException kivetel
      */
     private void saveSetting(ChessCounter cc, String fileName) throws IOException, URISyntaxException {
+
 
         String name = "/save/" + fileName + ".gmk";
         URL url = getClass().getResource(name);
@@ -154,5 +153,4 @@ public class FileFrame extends Menu {
         }
     }
 }
-
 
