@@ -115,7 +115,7 @@ public class Menu extends JFrame {
             b.setVisible(true);
         });
 
-        load.addActionListener(e -> new FileFrame(FileFrame.IO.LOAD, cc));
+        load.addActionListener(e -> new FileFrame(this, cc).loadGame(cc));
 
         exit.addActionListener(e -> {
             dispose();

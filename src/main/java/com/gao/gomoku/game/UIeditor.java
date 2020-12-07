@@ -152,7 +152,7 @@ public class UIeditor {
                 showMessageDialog(null, "The board is empty!", "warning", INFORMATION_MESSAGE);
             }
         });
-        save.addActionListener(e -> new FileFrame(FileFrame.IO.SAVE, cc));
+        save.addActionListener(e -> new FileFrame(b, cc).saveGame(cc));
         exit.addActionListener(e -> b.dispose());
     }
 
