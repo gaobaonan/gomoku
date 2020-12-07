@@ -1,12 +1,13 @@
 package com.gao.gomoku.menu;
 
-import com.gao.gomoku.file.FileFrame;
-import com.gao.gomoku.game.GomokuBoard;
 import com.gao.gomoku.counter.AIChessCounter;
 import com.gao.gomoku.counter.ChessCounter;
+import com.gao.gomoku.game.GomokuBoard;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static com.gao.gomoku.file.FileFrame.loadGame;
 
 /**
  * Menu
@@ -115,7 +116,7 @@ public class Menu extends JFrame {
             b.setVisible(true);
         });
 
-        load.addActionListener(e -> new FileFrame(this, cc).loadGame(cc));
+        load.addActionListener(e -> loadGame(this, cc));
 
         exit.addActionListener(e -> {
             dispose();

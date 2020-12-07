@@ -7,12 +7,10 @@ import com.gao.gomoku.game.GomokuBoard;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Stack;
 
@@ -29,14 +27,8 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class FileFrame {
 
-    JFrame frame;
-
-    public FileFrame( JFrame f, ChessCounter cc){
-        frame = f;
-    }
-
-    public void loadGame(ChessCounter cc) {
-        openFileChooser().ifPresent(filePath -> {
+    public static void loadGame(JFrame f,ChessCounter cc) {
+        openFileChooser(f).ifPresent(filePath -> {
             try {
                 loadSetting(cc, filePath);
             } catch (IOException e) {
@@ -52,7 +44,7 @@ public class FileFrame {
      * @param fileName: beolvasott fajlnak a neve
      * @throws IOException kivetel
      */
-    private void loadSetting(ChessCounter cc, String fileName) throws IOException {
+    private static void loadSetting(ChessCounter cc, String fileName) throws IOException {
         try(BufferedReader br = new BufferedReader(new FileReader(fileName))){
             String[] firstLine =  br.readLine().split(" ");
 
@@ -80,8 +72,8 @@ public class FileFrame {
         }
     }
 
-    public void saveGame(ChessCounter cc) {
-        openFileChooser().ifPresent(filePath-> {
+    public static void saveGame(JFrame f, ChessCounter cc) {
+        openFileChooser(f).ifPresent(filePath-> {
             try {
                 saveSetting(cc, filePath + ".gmk");
             } catch (IOException e) {
@@ -97,7 +89,7 @@ public class FileFrame {
      * @param fileName: kiirt fajlnak a neve
      * @throws IOException kivetel
      */
-    private void saveSetting(ChessCounter cc, String fileName) throws IOException {
+    private static void saveSetting(ChessCounter cc, String fileName) throws IOException {
         try (FileWriter fw = new FileWriter(fileName)){
             fw.write(cc.getGameMode().toString() + " ");
             fw.write(cc.getTurn().toString() + " ");
@@ -115,11 +107,11 @@ public class FileFrame {
         }
     }
 
-    private Optional<String> openFileChooser(){
+    private static Optional<String> openFileChooser(JFrame f){
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("gomoku file extention","gmk");
         chooser.setFileFilter(filter);
-        int returnVal = chooser.showOpenDialog(frame);
+        int returnVal = chooser.showOpenDialog(f);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
                     return Optional.of(chooser.getSelectedFile().getAbsolutePath());
         }

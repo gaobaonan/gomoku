@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.EmptyStackException;
 
+import static com.gao.gomoku.file.FileFrame.saveGame;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -152,7 +153,7 @@ public class UIeditor {
                 showMessageDialog(null, "The board is empty!", "warning", INFORMATION_MESSAGE);
             }
         });
-        save.addActionListener(e -> new FileFrame(b, cc).saveGame(cc));
+        save.addActionListener(e -> saveGame(b, cc));
         exit.addActionListener(e -> b.dispose());
     }
 
