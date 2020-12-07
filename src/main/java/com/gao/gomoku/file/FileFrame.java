@@ -19,14 +19,15 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * FileFrame
- * a fajl kezelesre meghasznalt ablak
- * az osztalyi belul metodussal lehet .gmk tipusú fajlokat beolvasni es kiirni
- * list: ArrayList-ben tarolt JButton lista, minden JButton egy azonos fajlot lehet elerni
- * exit: kilepesre hasznalt JButton
- * IO tipus: parameterkent kapott oszdaly mukodesi modell, az osztaly egyszer csak egy modellben fog dolgozni: kiir vagy beolvas
+ * statikus metodusokat tartalmazo osztaly, mely a jatekok kiirasaert es beolvasasert felelos
  */
 public class FileFrame {
 
+    /**
+     * beolvasasi metodus
+     * @param f: rajta dolgozott frame
+     * @param cc: rajta dolgoztt jatek palya
+     */
     public static void loadGame(JFrame f,ChessCounter cc) {
         openFileChooser(f).ifPresent(filePath -> {
             try {
@@ -39,7 +40,7 @@ public class FileFrame {
     }
 
     /**
-     * beolvasasi metodus, io = LOAD eseten dolgozik
+     * beolvasasi metodus segelete
      * @param cc: rajta dolgoztt jatek palya
      * @param fileName: beolvasott fajlnak a neve
      * @throws IOException kivetel
@@ -72,6 +73,11 @@ public class FileFrame {
         }
     }
 
+    /**
+     * kiirasi metodus
+     * @param f: rajta dolgozott frame
+     * @param cc: rajta dolgoztt jatek palya
+     */
     public static void saveGame(JFrame f, ChessCounter cc) {
         openFileChooser(f).ifPresent(filePath-> {
             try {
@@ -84,7 +90,7 @@ public class FileFrame {
     }
 
     /**
-     * kiirasi metodus, io = SAVE eseten dolgozik
+     * kiirasi metodus
      * @param cc: rajta dolgoztt jatek palya
      * @param fileName: kiirt fajlnak a neve
      * @throws IOException kivetel
@@ -107,6 +113,11 @@ public class FileFrame {
         }
     }
 
+    /**
+     * fajlvalastasi ablakot hivas metodus
+     * @param f: rajta dolgozott frame
+     * @return munka helyzet, sikerul-e fajlt olvasni
+     */
     private static Optional<String> openFileChooser(JFrame f){
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("gomoku file extention","gmk");
