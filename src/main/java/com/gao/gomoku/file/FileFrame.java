@@ -10,6 +10,8 @@ import com.gao.gomoku.menu.Menu;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -39,14 +41,15 @@ public class FileFrame extends Menu {
      * @param cc: rajta dolgoztt jatek palya
      */
     public FileFrame(IO io, ChessCounter cc){
-        setBounds(700,200,200,280);
-        GridLayout layout = new GridLayout(7,1);
+        setBounds(700,200,200,330);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        GridLayout layout = new GridLayout(8,1);
         layout.setVgap(5);
         setLayout(layout);
         setVisible(true);
 
         uisetting();
-        buttonSetting(io, cc);
+        buttonListener(io, cc);
     }
 
     /**
@@ -55,9 +58,9 @@ public class FileFrame extends Menu {
      * @param fileName: beolvasott fajlnak a neve
      * @throws IOException kivetel
      */
-    protected void loadSetting(ChessCounter cc, String fileName) throws IOException {
-        String name = "save/" + fileName + ".gmk";
-        try(BufferedReader br = new BufferedReader(new FileReader(name))){
+    protected void loadSetting(ChessCounter cc, String fileName) throws IOException, NullPointerException {
+        String name = "/save/" + fileName + ".gmk";
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(name)))){
             String[] firstLine =  br.readLine().split(" ");
 
             if(firstLine[0].equals("SINGLE")) cc = new AIChessCounter();
@@ -90,10 +93,12 @@ public class FileFrame extends Menu {
      * @param fileName: kiirt fajlnak a neve
      * @throws IOException kivetel
      */
-    private void saveSetting(ChessCounter cc, String fileName) throws IOException {
+    private void saveSetting(ChessCounter cc, String fileName) throws IOException, URISyntaxException {
 
-        String name = "save/" + fileName + ".gmk";
-        try (FileWriter fw = new FileWriter(name)){
+        String name = "/save/" + fileName + ".gmk";
+        URL url = getClass().getResource(name);
+        File f = new File(url.toURI().getPath());
+        try (FileWriter fw = new FileWriter(f.getAbsoluteFile())){
             fw.write(cc.getGameMode().toString() + " ");
             fw.write(cc.getTurn().toString() + " ");
             if(cc.getPlayable()) fw.write("playable\r\n");
@@ -114,6 +119,7 @@ public class FileFrame extends Menu {
      * UI beallitas
      */
     private void uisetting(){
+
         JLabel text = new JLabel("Select from file:");
         add(text);
         for(int i = 0; i < 5 ; i++){
@@ -127,11 +133,11 @@ public class FileFrame extends Menu {
     }
 
     /**
-     *
-     * @param io
-     * @param cc
+     * minden nyomogombnak az esemenynek beallitasa
+     * @param io: mukodesi modell
+     * @param cc: rajta dolgoztt jatek palya
      */
-    private void buttonSetting(IO io, ChessCounter cc){
+    private void buttonListener(IO io, ChessCounter cc){
         exit.addActionListener(e -> dispose());
 
         for (int i = 0; i < 5; i++) {
@@ -140,7 +146,7 @@ public class FileFrame extends Menu {
                 try {
                     if(io == IO.LOAD) loadSetting(cc, list.get(serialNumber).getName());
                     else saveSetting(cc, list.get(serialNumber).getName());
-                } catch (IOException exception) {
+                } catch (NullPointerException | IOException | URISyntaxException exception) {
                     showMessageDialog(null, "File not found!", "warning", ERROR_MESSAGE);
                 }
                 dispose();

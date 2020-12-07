@@ -119,7 +119,8 @@ public class Menu extends JFrame {
 
         exit.addActionListener(e -> {
             dispose();
-            b.dispose();
+            if(b != null)
+                b.dispose();
         });
     }
 }
